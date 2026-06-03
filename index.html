@@ -6,7 +6,6 @@
 <title>عربي Learn</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 :root{
@@ -14,23 +13,63 @@
   --muted:#78716c;--border:#e7e5e0;
   --red:#dc2626;--red-light:#fef2f2;--green:#16a34a;--green-light:#f0fdf4;
   --nav:52px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bot: env(safe-area-inset-bottom, 0px);
+}
+body.dark{
+  --bg:#0f0e0c;--card:#1c1a17;--dark:#f5f0e8;--accent:#f59e0b;
+  --muted:#6b6560;--border:#2e2b26;
+  --red:#ef4444;--red-light:#2a1515;--green:#22c55e;--green-light:#0f2a18;
 }
 html,body{height:100%;overflow-x:hidden;}
-body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--dark);font-size:16px;}
-
-/* NAV */
-.nav{background:var(--dark);color:#fff;padding:0 1rem;display:flex;align-items:center;justify-content:space-between;height:var(--nav);position:fixed;top:0;left:0;right:0;z-index:100;}
-.nav-logo{font-size:16px;font-weight:700;}.nav-logo span{color:#fbbf24;}
-.nav-info{font-size:12px;color:#a8a29e;max-width:55%;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-
-/* SCREENS */
-.screen{display:none;max-width:600px;margin:0 auto;padding:calc(var(--nav) + 1rem) 1rem 2rem;}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--dark);font-size:16px;transition:background .25s,color .25s;}
+/* Nav */
+.nav{
+  background:var(--dark);color:var(--bg);
+  padding:0 1rem;
+  padding-top:var(--safe-top);
+  display:flex;align-items:center;justify-content:space-between;
+  height:calc(var(--nav) + var(--safe-top));
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  transition:background .25s;
+}
+body.dark .nav{background:#1c1a17;color:#f5f0e8;border-bottom:1px solid var(--border);}
+.nav-logo{font-size:16px;font-weight:700;color:var(--bg);}
+body.dark .nav-logo{color:#f5f0e8;}
+.nav-logo span{color:#fbbf24;}
+.nav-info{font-size:12px;color:#a8a29e;max-width:40%;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+/* Theme toggle */
+.theme-toggle{
+  width:36px;height:36px;border-radius:10px;border:1.5px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.1);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:16px;
+  flex-shrink:0;transition:background .15s;
+}
+body.dark .theme-toggle{border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.07);}
+.theme-toggle:active{background:rgba(255,255,255,.2);}
+.screen{display:none;max-width:600px;margin:0 auto;padding:calc(var(--nav) + var(--safe-top) + 1rem) 1rem calc(2rem + var(--safe-bot));}
 .screen.active{display:block;}
+/* Dark mode card faces */
+body.dark .face-front{background:#242119;border-color:#333;}
+body.dark .face-back{background:#0f0e0c;border-color:#222;}
+body.dark .face-hint{color:var(--muted);}
+body.dark .mc-opt{background:var(--card);border-color:var(--border);color:var(--dark);}
+body.dark .mc-opt.correct{border-color:#4ade80;background:#0f2a18;color:#4ade80;}
+body.dark .mc-opt.wrong{border-color:#ef4444;background:#2a1515;color:#ef4444;}
+body.dark .write-input{background:var(--card);color:var(--dark);border-color:var(--border);}
+body.dark .write-input.ok{border-color:var(--green);background:var(--green-light);}
+body.dark .write-input.err{border-color:var(--red);background:var(--red-light);}
+body.dark .btn-no{background:#2a1515;border-color:#ef4444;color:#ef4444;}
+body.dark .btn-yes{background:#0f2a18;border-color:#4ade80;color:#4ade80;}
+body.dark .chapter-card:active{background:#242119;}
+body.dark .rbtn.primary{background:#f5f0e8;color:#0f0e0c;border-color:#f5f0e8;}
+body.dark .check-btn{background:#f5f0e8;color:#0f0e0c;}
+body.dark .learn-badge{background:#1a0f14;border-color:#9d174d;color:#f9a8d4;}
 
 /* HOME */
 .chapter-grid{display:flex;flex-direction:column;gap:8px;margin-top:.75rem;}
-.chapter-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:border-color .15s;-webkit-user-select:none;user-select:none;}
-.chapter-card:active{background:#f9f8f6;}
+.chapter-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;-webkit-user-select:none;user-select:none;}
+.chapter-card:active{background:#f5f4f0;}
 .chapter-card.done{border-color:#86efac;}
 .ch-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
 .ch-info{flex:1;min-width:0;}
@@ -38,21 +77,20 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--dar
 .ch-sub{font-size:11px;color:var(--muted);}
 .ch-stars{font-size:12px;margin-top:2px;}
 
-/* CHAPTER DETAIL */
+/* CHAPTER */
 .ch-header{display:flex;align-items:center;gap:10px;margin-bottom:1rem;}
-.back-btn{width:40px;height:40px;border:1.5px solid var(--border);border-radius:10px;background:var(--card);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0;font-size:18px;}
+.back-btn{width:40px;height:40px;border:1.5px solid var(--border);border-radius:10px;background:var(--card);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted);flex-shrink:0;}
 .ch-header-title{font-size:17px;font-weight:700;}
 .modes-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem;}
-.mode-card{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:16px 12px;cursor:pointer;text-align:center;transition:all .15s;-webkit-user-select:none;user-select:none;}
+.mode-card{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:16px 12px;cursor:pointer;text-align:center;-webkit-user-select:none;user-select:none;transition:border-color .12s,background .12s,color .12s;}
 .mode-card:active{opacity:.8;}
+.mode-card.mode-learn{grid-column:1/-1;}
 .mode-icon{font-size:26px;margin-bottom:6px;}
 .mode-title{font-size:14px;font-weight:700;}
 .mode-desc{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.3;}
-.start-btn{width:100%;padding:16px;border:none;border-radius:14px;background:var(--dark);color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;}
-.start-btn:active{opacity:.85;}
 
-/* STUDY SCREEN — fills viewport on mobile */
-#screen-study{padding:calc(var(--nav) + .75rem) 1rem 1rem;}
+/* STUDY */
+#screen-study{padding:calc(var(--nav) + var(--safe-top) + .75rem) 1rem calc(1rem + var(--safe-bot));}
 .study-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;gap:8px;}
 .study-title-wrap{flex:1;text-align:center;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .prog-bar{height:5px;background:var(--border);border-radius:3px;margin-bottom:.75rem;overflow:hidden;}
@@ -61,6 +99,7 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--dar
 .pf-mc{background:linear-gradient(90deg,#7c3aed,#a855f7);}
 .pf-mc2{background:linear-gradient(90deg,#1d4ed8,#3b82f6);}
 .pf-write{background:linear-gradient(90deg,#0f766e,#14b8a6);}
+.pf-learn{background:linear-gradient(90deg,#be185d,#ec4899);}
 
 /* FLASHCARD */
 .card-scene{height:200px;perspective:1200px;cursor:pointer;margin-bottom:.75rem;user-select:none;}
@@ -72,6 +111,7 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--dar
 .face-back{background:var(--dark);border:1.5px solid #333;transform:rotateY(180deg);}
 .face-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;}
 .face-back .face-tag{color:#6b6b6b;}
+.card-emoji{font-size:28px;margin-bottom:6px;}
 .main-word{font-family:'Scheherazade New',serif;font-size:42px;font-weight:700;text-align:center;line-height:1.3;direction:rtl;}
 .main-word.ltr{font-family:'IBM Plex Sans',sans-serif;font-size:22px;font-weight:600;direction:ltr;line-height:1.4;}
 .face-back .main-word{color:#fef3c7;}
@@ -86,10 +126,11 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--dar
 /* MC */
 .mc-question{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:1.25rem;text-align:center;margin-bottom:.75rem;}
 .mc-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;}
+.mc-emoji{font-size:32px;margin-bottom:6px;}
 .mc-word{font-family:'Scheherazade New',serif;font-size:44px;font-weight:700;direction:rtl;line-height:1.3;color:var(--dark);}
 .mc-word.ltr{font-family:'IBM Plex Sans',sans-serif;font-size:20px;font-weight:600;direction:ltr;line-height:1.4;}
 .mc-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:.5rem;}
-.mc-opt{padding:14px 8px;border:1.5px solid var(--border);border-radius:12px;background:var(--card);cursor:pointer;text-align:center;transition:border-color .1s,background .1s;font-family:'Scheherazade New',serif;font-size:22px;direction:rtl;line-height:1.3;min-height:56px;display:flex;align-items:center;justify-content:center;}
+.mc-opt{padding:14px 8px;border:1.5px solid var(--border);border-radius:12px;background:var(--card);cursor:pointer;text-align:center;font-family:'Scheherazade New',serif;font-size:22px;direction:rtl;line-height:1.3;min-height:56px;display:flex;align-items:center;justify-content:center;}
 .mc-opt.ltr{font-family:'IBM Plex Sans',sans-serif;font-size:13px;direction:ltr;line-height:1.4;}
 .mc-opt.correct{border-color:#4ade80;background:var(--green-light);color:var(--green);}
 .mc-opt.wrong{border-color:#fca5a5;background:var(--red-light);color:var(--red);}
@@ -98,9 +139,10 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--dar
 /* WRITE */
 .write-q{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:1.25rem;text-align:center;margin-bottom:.75rem;}
 .write-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;}
+.write-emoji{font-size:32px;margin-bottom:6px;}
 .write-ru{font-size:20px;font-weight:700;color:var(--dark);margin-bottom:.2rem;line-height:1.3;}
 .write-hint-small{font-size:11px;color:var(--muted);}
-.write-input{width:100%;border:2px solid var(--border);border-radius:12px;padding:14px;font-family:'Scheherazade New',serif;font-size:32px;text-align:center;direction:rtl;background:var(--card);color:var(--dark);outline:none;margin-bottom:.6rem;transition:border-color .15s;-webkit-appearance:none;}
+.write-input{width:100%;border:2px solid var(--border);border-radius:12px;padding:14px;font-family:'Scheherazade New',serif;font-size:32px;text-align:center;direction:rtl;background:var(--card);color:var(--dark);outline:none;margin-bottom:.6rem;-webkit-appearance:none;transition:border-color .15s;}
 .write-input:focus{border-color:var(--accent);}
 .write-input.ok{border-color:var(--green);background:var(--green-light);}
 .write-input.err{border-color:var(--red);background:var(--red-light);}
@@ -108,9 +150,39 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--dar
 .write-feedback.ok{color:var(--green);}
 .write-feedback.err{color:var(--red);}
 .write-correct{font-family:'Scheherazade New',serif;font-size:22px;direction:rtl;}
-.check-btn{width:100%;padding:15px;border:none;border-radius:12px;background:var(--dark);color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:.5rem;}
+.check-btn{width:100%;padding:15px;border:none;border-radius:12px;background:var(--dark);color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;}
 .check-btn:active{opacity:.85;}
-.check-btn:disabled{opacity:.35;cursor:default;}
+.check-btn:disabled{opacity:.35;}
+
+/* LEARN MODE badge */
+.learn-badge{display:inline-flex;align-items:center;gap:5px;background:#fdf2f8;border:1.5px solid #f9a8d4;border-radius:20px;padding:4px 10px;font-size:12px;font-weight:600;color:#be185d;margin-bottom:.75rem;}
+.learn-step-dots{display:flex;gap:6px;justify-content:center;margin-bottom:.75rem;}
+.learn-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:background .2s;}
+.learn-dot.done{background:#be185d;}
+.learn-dot.active{background:#be185d;transform:scale(1.3);}
+
+/* OVERLAY */
+#study-area{position:relative;}
+#word-overlay{
+  position:absolute;inset:0;z-index:50;border-radius:16px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:5px;padding:1rem 1rem;
+  opacity:0;pointer-events:none;transition:opacity .15s ease;
+}
+#word-overlay.show{opacity:1;pointer-events:all;}
+#word-overlay.correct-bg{background:var(--green);}
+#word-overlay.wrong-bg{background:var(--red);}
+.ov-emoji{font-size:24px;}
+.ov-ar{font-family:'Scheherazade New',serif;font-size:clamp(26px,7vw,38px);font-weight:700;color:#fff;direction:rtl;text-align:center;line-height:1.2;}
+.ov-ru{font-size:clamp(12px,3vw,15px);font-weight:500;color:rgba(255,255,255,.9);text-align:center;line-height:1.4;}
+.ov-next-btn{margin-top:4px;padding:10px 32px;border:2px solid rgba(255,255,255,.45);border-radius:12px;background:rgba(255,255,255,.15);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;}
+.ov-next-btn:active{background:rgba(255,255,255,.3);}
+
+.mini-stats{display:flex;gap:8px;margin-top:.6rem;}
+.mstat{flex:1;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:9px 6px;text-align:center;}
+.mstat-n{font-size:18px;font-weight:700;}
+.mstat-l{font-size:10px;color:var(--muted);margin-top:1px;}
+.c-green{color:var(--green);}.c-red{color:var(--red);}.c-muted{color:var(--muted);}
 
 /* RESULT */
 .result-screen{text-align:center;padding:1.5rem .5rem;}
@@ -125,20 +197,26 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--dar
 .rbtn{padding:14px;border:1.5px solid var(--border);border-radius:12px;background:var(--card);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;}
 .rbtn.primary{background:var(--dark);color:#fff;border-color:var(--dark);}
 .rbtn:active{opacity:.8;}
-
-/* MINI STATS */
-.mini-stats{display:flex;gap:8px;margin-top:.6rem;}
-.mstat{flex:1;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:9px 6px;text-align:center;}
-.mstat-n{font-size:18px;font-weight:700;}
-.mstat-l{font-size:10px;color:var(--muted);margin-top:1px;}
-.c-green{color:var(--green);}.c-red{color:var(--red);}.c-muted{color:var(--muted);}
 .hidden{display:none!important;}
+
+/* MASDAR & VOWEL */
+.verb-meta{display:flex;align-items:baseline;gap:8px;justify-content:center;margin-top:6px;flex-wrap:wrap;}
+.verb-masd{font-family:'Scheherazade New',serif;font-size:18px;direction:rtl;color:var(--accent);opacity:.85;}
+.verb-vow{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--muted);border:1px solid var(--border);border-radius:5px;padding:1px 5px;line-height:1.4;}
+body.dark .verb-masd{color:#f59e0b;}
+body.dark .verb-vow{color:var(--muted);border-color:var(--border);}
+/* overlay masdar */
+.ov-masd{font-family:'Scheherazade New',serif;font-size:16px;direction:rtl;color:rgba(255,255,255,.75);}
+.ov-vow{font-size:10px;font-weight:700;background:rgba(255,255,255,.2);border-radius:4px;padding:1px 5px;color:#fff;}
 </style>
 </head>
 <body>
 <div class="nav">
   <div class="nav-logo">عربي <span>Learn</span></div>
-  <div class="nav-info" id="nav-info">Выбери главу</div>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <div class="nav-info" id="nav-info">Выбери главу</div>
+    <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Тема">🌙</button>
+  </div>
 </div>
 
 <!-- HOME -->
@@ -159,31 +237,35 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--dar
       <div style="font-size:11px;color:var(--muted)" id="ch-sub-big"></div>
     </div>
   </div>
-  <div style="background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:10px 12px;margin-bottom:1rem;font-size:12px;color:var(--muted);" id="word-preview"></div>
+  <div style="background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:10px 12px;margin-bottom:1rem;" id="word-preview"></div>
   <div style="font-size:11px;font-weight:600;margin-bottom:.6rem;color:var(--muted);">ВЫБЕРИ РЕЖИМ</div>
   <div class="modes-grid">
-    <div class="mode-card" id="mc-flash" onclick="selectMode('flash')">
+    <div class="mode-card mode-learn" id="mc-learn" onclick="pickMode('learn')">
+      <div class="mode-icon">🚀</div>
+      <div class="mode-title">Заучивание</div>
+      <div class="mode-desc">3 упражнения на каждое слово — перевод, арабский, написание. Прогресс главы считается только здесь.</div>
+    </div>
+    <div class="mode-card" id="mc-flash" onclick="pickMode('flash')">
       <div class="mode-icon">🃏</div>
       <div class="mode-title">Карточки</div>
       <div class="mode-desc">Переворачивай и оценивай</div>
     </div>
-    <div class="mode-card" id="mc-mc" onclick="selectMode('mc')">
+    <div class="mode-card" id="mc-mc" onclick="pickMode('mc')">
       <div class="mode-icon">🎯</div>
       <div class="mode-title">Выбор перевода</div>
       <div class="mode-desc">4 варианта на русском</div>
     </div>
-    <div class="mode-card" id="mc-mc2" onclick="selectMode('mc2')">
+    <div class="mode-card" id="mc-mc2" onclick="pickMode('mc2')">
       <div class="mode-icon">🔤</div>
       <div class="mode-title">Выбор арабского</div>
       <div class="mode-desc">4 арабских варианта</div>
     </div>
-    <div class="mode-card" id="mc-write" onclick="selectMode('write')">
+    <div class="mode-card" id="mc-write" onclick="pickMode('write')">
       <div class="mode-icon">✍️</div>
       <div class="mode-title">Написать</div>
       <div class="mode-desc">Введи слово по-арабски</div>
     </div>
   </div>
-  <button class="start-btn" onclick="startStudy()">Начать →</button>
 </div>
 
 <!-- STUDY -->
@@ -195,73 +277,107 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--dar
   </div>
   <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
 
-  <!-- FLASHCARD -->
-  <div id="mode-flash" class="hidden">
-    <div class="card-scene" onclick="flipCard()">
-      <div class="card-3d" id="card3d">
-        <div class="face face-front">
-          <div class="face-tag" id="ff-tag">АРАБСКИЙ</div>
-          <div class="main-word" id="ff-word"></div>
-          <div class="face-hint">нажми чтобы перевернуть</div>
-        </div>
-        <div class="face face-back">
-          <div class="face-tag" id="fb-tag">ПЕРЕВОД</div>
-          <div class="main-word ltr" id="fb-word"></div>
+  <div id="study-area">
+
+    <!-- FLASHCARD -->
+    <div id="mode-flash" class="hidden">
+      <div class="card-scene" onclick="flipCard()">
+        <div class="card-3d" id="card3d">
+          <div class="face face-front">
+            <div class="face-tag" id="ff-tag">АРАБСКИЙ</div>
+            <div class="card-emoji" id="ff-emoji"></div>
+            <div class="main-word" id="ff-word"></div>
+            <div class="face-hint">нажми чтобы перевернуть</div>
+          </div>
+          <div class="face face-back">
+            <div class="face-tag" id="fb-tag">ПЕРЕВОД</div>
+            <div class="main-word ltr" id="fb-word"></div>
+            <div class="verb-meta" id="fb-verb-meta" style="display:none;margin-top:8px;">
+              <span style="font-family:'Scheherazade New',serif;font-size:17px;direction:rtl;color:#fbbf24;opacity:.9;" id="fb-masd"></span>
+              <span style="font-size:11px;font-weight:700;background:rgba(255,255,255,.15);border-radius:5px;padding:1px 6px;color:#fff;" id="fb-vow"></span>
+            </div>
+          </div>
         </div>
       </div>
+      <div class="flip-hint" id="flip-hint">👆 Нажми на карточку</div>
+      <div class="ans-row hidden" id="flash-ans">
+        <button class="btn-no" onclick="flashAnswer(false)">✗ Не знал</button>
+        <button class="btn-yes" onclick="flashAnswer(true)">✓ Знал!</button>
+      </div>
     </div>
-    <div class="flip-hint" id="flip-hint">👆 Нажми на карточку</div>
-    <div class="ans-row hidden" id="flash-ans">
-      <button class="btn-no" onclick="flashAnswer(false)">✗ Не знал</button>
-      <button class="btn-yes" onclick="flashAnswer(true)">✓ Знал!</button>
-    </div>
-    <button class="btn-next hidden" id="flash-next" onclick="nextCard()">Следующая →</button>
-  </div>
 
-  <!-- MC перевод -->
-  <div id="mode-mc" class="hidden">
-    <div class="mc-question">
-      <div class="mc-label">ЧТО ЗНАЧИТ?</div>
-      <div class="mc-word" id="mc-word"></div>
+    <!-- MC перевод -->
+    <div id="mode-mc" class="hidden">
+      <div class="mc-question">
+        <div class="mc-label">ЧТО ЗНАЧИТ?</div>
+        <div class="mc-emoji" id="mc-emoji"></div>
+        <div class="mc-word" id="mc-word"></div>
+        <div class="verb-meta" id="mc-verb-meta" style="display:none">
+          <span class="verb-masd" id="mc-masd"></span>
+          <span class="verb-vow" id="mc-vow"></span>
+        </div>
+      </div>
+      <div class="mc-options" id="mc-opts"></div>
     </div>
-    <div class="mc-options" id="mc-opts"></div>
-  </div>
 
-  <!-- MC2 арабский -->
-  <div id="mode-mc2" class="hidden">
-    <div class="mc-question">
-      <div class="mc-label">КАК ПИШЕТСЯ ПО-АРАБСКИ?</div>
-      <div class="mc-word ltr" id="mc2-word"></div>
+    <!-- MC2 арабский -->
+    <div id="mode-mc2" class="hidden">
+      <div class="mc-question">
+        <div class="mc-label">КАК ПИШЕТСЯ ПО-АРАБСКИ?</div>
+        <div class="mc-emoji" id="mc2-emoji"></div>
+        <div class="mc-word ltr" id="mc2-word"></div>
+      </div>
+      <div class="mc-options" id="mc2-opts"></div>
     </div>
-    <div class="mc-options" id="mc2-opts"></div>
-  </div>
 
-  <!-- WRITE -->
-  <div id="mode-write" class="hidden">
-    <div class="write-q">
-      <div class="write-label">НАПИШИ ПО-АРАБСКИ</div>
-      <div class="write-ru" id="write-ru"></div>
-      <div class="write-hint-small">без огласовок</div>
+    <!-- WRITE -->
+    <div id="mode-write" class="hidden">
+      <div class="write-q">
+        <div class="write-label">НАПИШИ ПО-АРАБСКИ</div>
+        <div class="write-emoji" id="write-emoji"></div>
+        <div class="write-ru" id="write-ru"></div>
+        <div class="write-hint-small">без огласовок</div>
+      </div>
+      <input class="write-input" id="write-input" type="text" placeholder="اكتب هنا..." dir="rtl"
+        oninput="clearFeedback()" onkeydown="if(event.key==='Enter')checkWrite()">
+      <div class="write-feedback" id="write-fb"></div>
+      <button class="check-btn" id="check-btn" onclick="checkWrite()">Проверить</button>
     </div>
-    <input class="write-input" id="write-input" type="text" placeholder="اكتب هنا..." dir="rtl"
-      oninput="clearFeedback()" onkeydown="if(event.key==='Enter')checkWrite()">
-    <div class="write-feedback" id="write-fb"></div>
-    <button class="check-btn" id="check-btn" onclick="checkWrite()">Проверить</button>
-    <button class="btn-next hidden" id="write-next" onclick="nextCard()">Следующая →</button>
-  </div>
 
-  <div class="mini-stats">
-    <div class="mstat"><div class="mstat-n c-green" id="ms-ok">0</div><div class="mstat-l">Верно</div></div>
-    <div class="mstat"><div class="mstat-n c-red" id="ms-no">0</div><div class="mstat-l">Ошибки</div></div>
-    <div class="mstat"><div class="mstat-n c-muted" id="ms-left">0</div><div class="mstat-l">Осталось</div></div>
-  </div>
+    <!-- LEARN mode info -->
+    <div id="mode-learn-ui" class="hidden">
+      <div style="text-align:center;margin-bottom:.5rem;">
+        <div class="learn-badge">🚀 Заучивание</div>
+        <div class="learn-step-dots" id="learn-dots"></div>
+      </div>
+    </div>
+
+    <!-- OVERLAY -->
+    <div id="word-overlay">
+      <div class="ov-emoji" id="ov-emoji"></div>
+      <div class="ov-ar" id="ov-ar"></div>
+      <div id="ov-verb-meta" style="display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;">
+        <span class="ov-masd" id="ov-masd"></span>
+        <span class="ov-vow" id="ov-vow" style="display:none"></span>
+      </div>
+      <div class="ov-ru" id="ov-ru"></div>
+      <button class="ov-next-btn" onclick="overlayNext()">Далее →</button>
+    </div>
+
+    <div class="mini-stats">
+      <div class="mstat"><div class="mstat-n c-green" id="ms-ok">0</div><div class="mstat-l">Верно</div></div>
+      <div class="mstat"><div class="mstat-n c-red" id="ms-no">0</div><div class="mstat-l">Ошибки</div></div>
+      <div class="mstat"><div class="mstat-n c-muted" id="ms-left">0</div><div class="mstat-l">Осталось</div></div>
+    </div>
+
+  </div><!-- /study-area -->
 </div>
 
 <!-- RESULT -->
 <div class="screen" id="screen-result">
   <div class="result-screen">
     <div class="result-emoji" id="res-emoji">🎉</div>
-    <div class="result-title" id="res-title">Глава завершена!</div>
+    <div class="result-title" id="res-title">Готово!</div>
     <div class="result-sub" id="res-sub"></div>
     <div class="result-stats">
       <div class="rstat"><div class="rstat-n c-green" id="res-ok">0</div><div class="rstat-l">Верно</div></div>
@@ -269,7 +385,7 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--dar
       <div class="rstat"><div class="rstat-n" id="res-pct" style="color:var(--accent)">0%</div><div class="rstat-l">Результат</div></div>
     </div>
     <div class="result-btns">
-      <button class="rbtn primary" onclick="restartStudy(false)">Повторить главу</button>
+      <button class="rbtn primary" onclick="restartStudy(false)">Повторить</button>
       <button class="rbtn" onclick="restartStudy(true)" id="retry-wrong">Только ошибки</button>
       <button class="rbtn" onclick="goHome()">← Все главы</button>
     </div>
@@ -277,522 +393,391 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--dar
 </div>
 
 <script>
-// ALL WORDS from the original list, grouped by theme
 const CHAPTERS = [
-  {
-    id:1, icon:"🌪️", color:"#fee2e2",
-    title:"Война и конфликт",
-    words:[
-      {ar:"غَزَا",ru:"совершил военный поход, напал"},
-      {ar:"هَاجَمَ",ru:"напал, атаковал"},
-      {ar:"عَسْكَرَ",ru:"расположился лагерем, разместил войска"},
-      {ar:"أَسَرَ",ru:"взял в плен"},
-      {ar:"هَرَبَ",ru:"убежал, сбежал"},
-      {ar:"فَرَّ",ru:"бежал с поля боя"},
-      {ar:"هَدَمَ",ru:"разрушил, снёс"},
-      {ar:"تَحَرَّكَ",ru:"двинулся, зашевелился"},
-      {ar:"حَمَى",ru:"защитил, охранял"},
-    ]
-  },
-  {
-    id:2, icon:"🕌", color:"#ecfdf5",
-    title:"Религия и вера",
-    words:[
-      {ar:"دَانَ",ru:"исповедовал веру, судил"},
-      {ar:"حَجَّ",ru:"совершил паломничество (хадж)"},
-      {ar:"صَلَّى",ru:"молился, совершал намаз"},
-      {ar:"لَعَنَ",ru:"проклял"},
-      {ar:"رَاءَى",ru:"лицемерил, показывал напоказ"},
-      {ar:"اِحْتَسَبَ",ru:"ожидал награды от Бога"},
-      {ar:"عَاذَ",ru:"прибег к защите Бога"},
-      {ar:"تَحَرَّى",ru:"искал истину, расследовал"},
-      {ar:"اِسْتَسْلَمَ",ru:"сдался, покорился"},
-      {ar:"اِسْتِقَامَةٌ",ru:"прямота, праведность"},
-    ]
-  },
-  {
-    id:3, icon:"⚖️", color:"#fff1f2",
-    title:"Мораль, грех и прощение",
-    words:[
-      {ar:"سَبَّ",ru:"ругал, оскорблял"},
-      {ar:"شَتَمَ",ru:"обозвал, оскорбил словами"},
-      {ar:"أَذْنَبَ",ru:"согрешил, совершил проступок"},
-      {ar:"رَفَضَ",ru:"отверг, отказал"},
-      {ar:"عَفَا",ru:"простил, помиловал"},
-      {ar:"لَعْنَةٌ",ru:"проклятие"},
-      {ar:"سَاءَ",ru:"стало плохо, ухудшилось"},
-      {ar:"بَاءَ",ru:"вернулся с позором, понёс"},
-      {ar:"حَرَّفَ",ru:"исказил, изменил текст"},
-    ]
-  },
-  {
-    id:4, icon:"💬", color:"#eff6ff",
-    title:"Речь, знание, суждение",
-    words:[
-      {ar:"مَسْأَلَةٌ",ru:"вопрос, проблема"},
-      {ar:"مَعْرِفَةٌ",ru:"знание, познание"},
-      {ar:"حُجَّةٌ",ru:"довод, аргумент"},
-      {ar:"أَصْلٌ",ru:"основа, корень"},
-      {ar:"مَشُورَةٌ",ru:"совет, консультация"},
-      {ar:"قِيَادَةٌ",ru:"руководство, лидерство"},
-      {ar:"فَقَّهَ",ru:"обучил праву, разъяснил"},
-      {ar:"نَشَرَ",ru:"распространил, опубликовал"},
-      {ar:"وَجَّهَ",ru:"направил, ориентировал"},
-    ]
-  },
-  {
-    id:5, icon:"😔", color:"#fce7f3",
-    title:"Чувства и состояния",
-    words:[
-      {ar:"خَزِيَ",ru:"опозорился, устыдился"},
-      {ar:"هَوَى",ru:"упал, полюбил"},
-      {ar:"فَتَرَ",ru:"ослаб, охладел"},
-      {ar:"قَلِقَ",ru:"беспокоился, тревожился"},
-      {ar:"حَسَدَ",ru:"завидовал"},
-      {ar:"كَسِلَ",ru:"ленился, бездельничал"},
-      {ar:"أَلْهَى",ru:"отвлёк, развлёк"},
-      {ar:"ثَبَتَ",ru:"устоял, оставался стабильным"},
-      {ar:"رَاعَ",ru:"напугал, устрашил"},
-    ]
-  },
-  {
-    id:6, icon:"🙌", color:"#fef3c7",
-    title:"Основные действия 1",
-    words:[
-      {ar:"زَمَّلَ",ru:"завернул, закутал"},
-      {ar:"قَطَعَ",ru:"отрезал, разрезал"},
-      {ar:"دَفَعَ",ru:"оттолкнул, заплатил"},
-      {ar:"مَنَحَ",ru:"дал, даровал"},
-      {ar:"كَفَّ",ru:"удержался, прекратил"},
-      {ar:"عَرَضَ",ru:"предложил, показал"},
-      {ar:"اِخْتَارَ",ru:"выбрал, предпочёл"},
-      {ar:"قَدَّرَ",ru:"оценил, определил меру"},
-      {ar:"سَخَّرَ",ru:"подчинил, поставил на службу"},
-    ]
-  },
-  {
-    id:7, icon:"🏗️", color:"#f0f9ff",
-    title:"Основные действия 2",
-    words:[
-      {ar:"بَنَى",ru:"построил, возвёл"},
-      {ar:"وَدَعَ",ru:"попрощался, оставил"},
-      {ar:"أَفْنَى",ru:"уничтожил, извёл"},
-      {ar:"أَبْلَى",ru:"подверг испытанию"},
-      {ar:"اِقْتَنَى",ru:"приобрёл, стяжал"},
-      {ar:"جَدَّدَ",ru:"обновил, возродил"},
-      {ar:"خَتَمَ",ru:"запечатал, завершил"},
-      {ar:"نَفَضَ",ru:"стряхнул, встряхнул"},
-      {ar:"لَجَأَ",ru:"прибегнул к убежищу"},
-    ]
-  },
-  {
-    id:8, icon:"🏃", color:"#f5f3ff",
-    title:"Движение и тело",
-    words:[
-      {ar:"قَعَدَ",ru:"сидел, сел"},
-      {ar:"اِضْطَجَعَ",ru:"лёг, улёгся"},
-      {ar:"صَعِدَ",ru:"поднялся, взошёл"},
-      {ar:"نَقَرَ",ru:"клюнул, постучал"},
-      {ar:"نَحَرَ",ru:"зарезал (верблюда)"},
-      {ar:"وَطِئَ",ru:"наступил на, топтал"},
-      {ar:"تَبَسَّمَ",ru:"улыбнулся"},
-      {ar:"عَمِيَ",ru:"ослеп, потерял зрение"},
-      {ar:"شَجَّ",ru:"проломил голову, поранил"},
-    ]
-  },
-  {
-    id:9, icon:"⚡", color:"#fafaf0",
-    title:"Интенсивность и перемены",
-    words:[
-      {ar:"اِشْتَدَّ",ru:"усилился, ужесточился"},
-      {ar:"زَلْزَلَ",ru:"потряс, поколебал"},
-      {ar:"عَصَفَ",ru:"бушевал (о ветре)"},
-      {ar:"اِبْتَلَى",ru:"испытал, подверг испытанию"},
-      {ar:"أَغْنَى",ru:"обогатил, избавил от нужды"},
-      {ar:"خَفَّ",ru:"стал лёгким, уменьшился"},
-      {ar:"ثَقُلَ",ru:"стал тяжёлым, отяготился"},
-      {ar:"تَبَّ",ru:"погиб, потерпел крах"},
-      {ar:"أَلْهَى",ru:"отвлёк, совратил с пути"},
-    ]
-  },
-  {
-    id:10, icon:"🌿", color:"#f0fdf4",
-    title:"Жизнь, здоровье, судьба",
-    words:[
-      {ar:"حَيَّ",ru:"жил, здравствовал"},
-      {ar:"حَيَاةٌ",ru:"жизнь"},
-      {ar:"عَافَى",ru:"исцелил, даровал здоровье"},
-      {ar:"تَوَفَّى",ru:"умер, скончался"},
-      {ar:"أَجَلٌ",ru:"срок, назначенное время"},
-      {ar:"فِطْرَةٌ",ru:"природа, врождённые качества"},
-      {ar:"عُمُرٌ",ru:"возраст, жизнь"},
-      {ar:"ذُرِّيَّةٌ",ru:"потомство, дети"},
-      {ar:"بَرَاءَةٌ",ru:"невиновность, патент"},
-    ]
-  },
-  {
-    id:11, icon:"🌩️", color:"#eff6ff",
-    title:"Природа и погода",
-    words:[
-      {ar:"بَرْقٌ",ru:"молния"},
-      {ar:"رَعْدٌ",ru:"гром"},
-      {ar:"غَيْمٌ",ru:"облако, туча"},
-      {ar:"رِيحٌ",ru:"ветер"},
-      {ar:"مَطَرٌ",ru:"дождь"},
-      {ar:"جَلِيدٌ",ru:"лёд"},
-      {ar:"ضَبَابٌ",ru:"туман"},
-      {ar:"طَلٌّ",ru:"роса"},
-      {ar:"عَاصِفَةٌ",ru:"буря, шторм"},
-    ]
-  },
-  {
-    id:12, icon:"🏠", color:"#fefce8",
-    title:"Дом и быт",
-    words:[
-      {ar:"فِرَاشٌ",ru:"постель, мотылёк"},
-      {ar:"كُرْسِيٌّ",ru:"стул, кресло, трон"},
-      {ar:"حَوْضٌ",ru:"бассейн, таз, водоём"},
-      {ar:"إِنَاءٌ",ru:"сосуд, посуда"},
-      {ar:"سُكُوتٌ",ru:"молчание, тишина"},
-      {ar:"مَجْلِسٌ",ru:"зал совета, собрание"},
-      {ar:"صَالَةٌ",ru:"зал, гостиная"},
-      {ar:"شَرِيكٌ",ru:"партнёр, соучастник"},
-      {ar:"نَفَشَ",ru:"взъерошил, распушил"},
-    ]
-  },
-  {
-    id:13, icon:"👗", color:"#f5f3ff",
-    title:"Одежда",
-    words:[
-      {ar:"جَوْرَبٌ",ru:"носок"},
-      {ar:"بَنْطَلُونٌ",ru:"брюки, штаны"},
-      {ar:"حِذَاءٌ",ru:"обувь, туфли"},
-      {ar:"عَبَايَةٌ",ru:"абая (женская одежда)"},
-      {ar:"خِمَارٌ",ru:"хиджаб, покрывало"},
-      {ar:"حِزَامٌ",ru:"пояс, ремень"},
-      {ar:"قَمِيصٌ",ru:"рубашка"},
-      {ar:"ثَوْبٌ",ru:"одежда, платье"},
-    ]
-  },
-  {
-    id:14, icon:"📱", color:"#f0fdf4",
-    title:"Технологии",
-    words:[
-      {ar:"تِلْفَازٌ",ru:"телевизор"},
-      {ar:"فِيلْمٌ",ru:"фильм"},
-      {ar:"سَمَّاعَةٌ",ru:"наушник, гарнитура"},
-      {ar:"شَاشَةٌ",ru:"экран"},
-      {ar:"حِسَابٌ",ru:"аккаунт, счёт"},
-      {ar:"هَاتِفٌ",ru:"телефон"},
-      {ar:"فِيدِيو",ru:"видео"},
-      {ar:"كَامِيرَا",ru:"камера"},
-      {ar:"حَاسُوبٌ",ru:"компьютер"},
-      {ar:"جِهَازٌ",ru:"устройство, прибор"},
-    ]
-  },
-  {
-    id:15, icon:"🌈", color:"#fff7ed",
-    title:"Цвета",
-    words:[
-      {ar:"أَحْمَرُ",ru:"красный"},
-      {ar:"أَبْيَضُ",ru:"белый"},
-      {ar:"أَسْوَدُ",ru:"чёрный"},
-      {ar:"أَصْفَرُ",ru:"жёлтый"},
-      {ar:"أَزْرَقُ",ru:"синий, голубой"},
-      {ar:"أَخْضَرُ",ru:"зелёный"},
-    ]
-  },
-  {
-    id:16, icon:"📊", color:"#fdf4ff",
-    title:"Прилагательные: противоположности",
-    words:[
-      {ar:"وَاسِعٌ",ru:"широкий, просторный"},
-      {ar:"ضَيِّقٌ",ru:"узкий, тесный"},
-      {ar:"طَوِيلٌ",ru:"длинный, высокий"},
-      {ar:"قَصِيرٌ",ru:"короткий, низкий"},
-      {ar:"كَبِيرٌ",ru:"большой, старший"},
-      {ar:"صَغِيرٌ",ru:"маленький, младший"},
-      {ar:"جَمِيلٌ",ru:"красивый, прекрасный"},
-      {ar:"قَبِيحٌ",ru:"некрасивый, уродливый"},
-      {ar:"قَوِيٌّ",ru:"сильный, крепкий"},
-      {ar:"ضَعِيفٌ",ru:"слабый"},
-    ]
-  },
-  {
-    id:17, icon:"⭐", color:"#fef9c3",
-    title:"Прилагательные: качество",
-    words:[
-      {ar:"عَجِيبٌ",ru:"удивительный, странный"},
-      {ar:"عَادِيٌّ",ru:"обычный, нормальный"},
-      {ar:"صَعْبٌ",ru:"трудный, сложный"},
-      {ar:"أَشَدُّ",ru:"сильнейший, наиболее интенсивный"},
-      {ar:"أَبْقَى",ru:"более долговечный, вечный"},
-      {ar:"أَسْمَى",ru:"высочайший, возвышенный"},
-      {ar:"أَعْظَمُ",ru:"величайший"},
-      {ar:"أَدْنَى",ru:"ближайший, низший"},
-      {ar:"أَحْكَمُ",ru:"мудрейший"},
-    ]
-  },
-  {
-    id:18, icon:"❤️", color:"#fff1f2",
-    title:"Лучший, худший и другие",
-    words:[
-      {ar:"أَحَبُّ",ru:"любимейший, наиболее любимый"},
-      {ar:"خَيْرٌ",ru:"лучший, добро"},
-      {ar:"شَرٌّ",ru:"худший, зло"},
-      {ar:"أَبْتَرُ",ru:"бездетный, обрубленный"},
-      {ar:"وَيْلٌ",ru:"горе, беда, несчастье"},
-      {ar:"هَوَانٌ",ru:"унижение, презрение"},
-      {ar:"خَصْلَةٌ",ru:"качество, черта характера"},
-      {ar:"وَتْرٌ",ru:"нечётное число, струна"},
-      {ar:"شَفْعٌ",ru:"чётное число, пара"},
-    ]
-  },
-  {
-    id:19, icon:"🔢", color:"#ecfdf5",
-    title:"Порядковые числительные",
-    words:[
-      {ar:"الأَوَّلُ",ru:"первый"},
-      {ar:"الثَّانِي",ru:"второй"},
-      {ar:"الثَّالِثُ",ru:"третий"},
-      {ar:"الرَّابِعُ",ru:"четвёртый"},
-      {ar:"الخَامِسُ",ru:"пятый"},
-      {ar:"السَّادِسُ",ru:"шестой"},
-      {ar:"السَّابِعُ",ru:"седьмой"},
-      {ar:"الثَّامِنُ",ru:"восьмой"},
-      {ar:"التَّاسِعُ",ru:"девятый"},
-      {ar:"العَاشِرُ",ru:"десятый"},
-    ]
-  },
-  {
-    id:20, icon:"🧩", color:"#f0fdf4",
-    title:"Разные существительные",
-    words:[
-      {ar:"قَافِلَةٌ",ru:"караван"},
-      {ar:"فِيلٌ",ru:"слон"},
-      {ar:"كَنِيسَةٌ",ru:"церковь, синагога"},
-      {ar:"إِلَهٌ",ru:"бог, божество"},
-      {ar:"مَوْلَى",ru:"хозяин, покровитель"},
-      {ar:"عَشِيرَةٌ",ru:"племя, род"},
-      {ar:"فَلَقٌ",ru:"рассвет, расщелина"},
-      {ar:"قَرْنٌ",ru:"рог, век (100 лет)"},
-      {ar:"سِنٌّ",ru:"зуб, возраст"},
-      {ar:"شِقٌّ",ru:"трещина, раскол"},
-    ]
-  },
-  {
-    id:21, icon:"🙏", color:"#fdf4ff",
-    title:"Духовная жизнь",
-    words:[
-      {ar:"صَلَاةٌ",ru:"намаз, молитва"},
-      {ar:"رِيَاضَةٌ",ru:"спорт, физкультура"},
-      {ar:"بَارَكَ",ru:"благословил"},
-      {ar:"عَفَا",ru:"простил, помиловал"},
-      {ar:"وَكَلَ",ru:"поручил, доверил"},
-      {ar:"سَهَا",ru:"забыл, отвлёкся"},
-      {ar:"كَسَبَ",ru:"заработал, приобрёл"},
-      {ar:"مَالَ",ru:"наклонился, склонился"},
-      {ar:"أَبْشَرَ",ru:"обрадовал, осчастливил"},
-    ]
-  },
-  {
-    id:22, icon:"🗺️", color:"#fef9c3",
-    title:"Поход и путешествие",
-    words:[
-      {ar:"جَهَّزَ",ru:"снарядил, подготовил"},
-      {ar:"أَسْفَرَ",ru:"рассвело; отправился в путь"},
-      {ar:"قَافِلَةٌ",ru:"караван"},
-      {ar:"هَاجَمَ",ru:"напал, атаковал"},
-      {ar:"فَرَّ",ru:"сбежал с поля боя"},
-      {ar:"غَسَقَ",ru:"наступала темнота, сумерки"},
-      {ar:"فَلَقٌ",ru:"рассвет"},
-      {ar:"تَشَرَّفَ",ru:"удостоился чести"},
-      {ar:"زَوَّجَ",ru:"поженил, выдал замуж"},
-    ]
-  },
-  {
-    id:23, icon:"🔢", color:"#e0f2fe",
-    title:"Числительные (0–10)",
-    words:[
-      {ar:"صِفْر",ru:"ноль"},
-      {ar:"وَاحِد",ru:"один"},
-      {ar:"اِثْنان",ru:"два"},
-      {ar:"ثَلاثَة",ru:"три"},
-      {ar:"أرْبَعَة",ru:"четыре"},
-      {ar:"خَمْسَة",ru:"пять"},
-      {ar:"سِتَّة",ru:"шесть"},
-      {ar:"سَبْعَة",ru:"семь"},
-      {ar:"ثَمانِيَة",ru:"восемь"},
-      {ar:"تِسْعَة",ru:"девять"},
-      {ar:"عَشْرَة",ru:"десять"},
-    ]
-  },
-  {
-    id:24, icon:"🌙", color:"#ede9fe",
-    title:"Время суток",
-    words:[
-      {ar:"لَيْلٌ",ru:"ночь"},
-      {ar:"مُنْتَصَفُ اللَّيْلِ",ru:"полночь"},
-      {ar:"مَسَاءٌ",ru:"вечер"},
-      {ar:"نَهَارٌ",ru:"день (светлое время)"},
-      {ar:"صَبَاحٌ",ru:"утро"},
-      {ar:"شُرُوقُ الشَّمْسِ",ru:"восход солнца"},
-      {ar:"غُرُوبُ الشَّمْسِ",ru:"закат солнца"},
-      {ar:"بُكْرَة",ru:"раннее утро"},
-    ]
-  },
-  {
-    id:25, icon:"⏳", color:"#fef3c7",
-    title:"Время и обстоятельства",
-    words:[
-      {ar:"عَامٌ",ru:"год"},
-      {ar:"شَهْرٌ",ru:"месяц"},
-      {ar:"أسْبُوعٌ",ru:"неделя"},
-      {ar:"غَداً",ru:"завтра"},
-      {ar:"قَرْنٌ",ru:"век (100 лет)"},
-      {ar:"أثْناء",ru:"во время, в течение"},
-      {ar:"حِينٌ",ru:"пора, момент"},
-      {ar:"بَيْنَ",ru:"между"},
-      {ar:"وَراء",ru:"позади, за"},
-      {ar:"تِلْقاء",ru:"напротив, в сторону"},
-    ]
-  },
-  {
-    id:26, icon:"📜", color:"#f3f4f6",
-    title:"Термины хадиса",
-    words:[
-      {ar:"حَدِيثٌ",ru:"хадис"},
-      {ar:"أحَادِيثُ",ru:"хадисы"},
-      {ar:"رَقْمٌ",ru:"номер"},
-      {ar:"أرْقامٌ",ru:"номера"},
-      {ar:"الرَّاوِي",ru:"передатчик (хадиса)"},
-      {ar:"الرُّواةُ",ru:"передатчики"},
-      {ar:"إسْنادٌ",ru:"иснад (цепочка передачи)"},
-      {ar:"أسانِيدُ",ru:"иснады"},
-      {ar:"تَحْقِيقٌ",ru:"тахкик (критическая проверка)"},
-      {ar:"شَرْحٌ",ru:"комментарий, разъяснение"},
-      {ar:"شُروحٌ",ru:"комментарии"},
-      {ar:"أثَرٌ",ru:"предание (асар)"},
-      {ar:"آثارٌ",ru:"предания"},
-      {ar:"تَفْسِيرٌ",ru:"толкование (тафсир)"},
-      {ar:"تَفاسِيرُ",ru:"толкования"},
-      {ar:"مَصْدَرٌ",ru:"источник"},
-      {ar:"مَصادِرُ",ru:"источники"},
-      {ar:"مُصَنَّفٌ",ru:"сборник, сочинение"},
-      {ar:"مُصَنَّفاتٌ",ru:"сборники, сочинения"},
-    ]
-  },
-  {
-    id:27, icon:"⚖️", color:"#fae8ff",
-    title:"Противоположности: имена",
-    words:[
-      {ar:"صِحَّةٌ",ru:"достоверность, правильность"},
-      {ar:"بُطْلانٌ",ru:"недействительность"},
-      {ar:"صَلاحٌ",ru:"праведность, исправность"},
-      {ar:"فَسَادٌ",ru:"порча, разложение"},
-      {ar:"سُرُورٌ",ru:"радость"},
-      {ar:"حُزْنٌ",ru:"печаль, скорбь"},
-      {ar:"عِلْمٌ",ru:"знание"},
-      {ar:"جَهْلٌ",ru:"невежество"},
-      {ar:"غِنًى",ru:"богатство"},
-      {ar:"فَقْرٌ",ru:"бедность"},
-      {ar:"قُوَّةٌ",ru:"сила"},
-      {ar:"ضَعْفٌ",ru:"слабость"},
-      {ar:"شَبَابٌ",ru:"молодость, юность"},
-    ]
-  },
-  {
-    id:28, icon:"🔁", color:"#dbeafe",
-    title:"Противоположности: прилагательные",
-    words:[
-      {ar:"طَيِّبٌ",ru:"хороший, благой"},
-      {ar:"خَبِيثٌ",ru:"скверный, дурной"},
-      {ar:"صَالِحٌ",ru:"праведный, добрый"},
-      {ar:"فَاسِدٌ",ru:"испорченный, негодный"},
-      {ar:"عَالِمٌ",ru:"знающий, учёный"},
-      {ar:"جَاهِلٌ",ru:"невежественный"},
-      {ar:"مُهِمٌّ",ru:"важный"},
-      {ar:"حَقِيرٌ",ru:"ничтожный, презренный"},
-      {ar:"صَحِيحٌ",ru:"достоверный, правильный"},
-      {ar:"بَاطِلٌ",ru:"ложный, недействительный"},
-      {ar:"مَسْرُورٌ",ru:"радостный"},
-      {ar:"حَزِينٌ",ru:"печальный, грустный"},
-      {ar:"غَنِيٌّ",ru:"богатый"},
-      {ar:"فَقِيرٌ",ru:"бедный"},
-    ]
-  },
-  {
-    id:29, icon:"🧭", color:"#dcfce7",
-    title:"Стороны света",
-    words:[
-      {ar:"شَرْقٌ",ru:"восток"},
-      {ar:"شِمالٌ",ru:"север"},
-      {ar:"غَرْبٌ",ru:"запад"},
-      {ar:"جَنوبٌ",ru:"юг"},
-    ]
-  },
-  {
-    id:30, icon:"🍇", color:"#fce7f3",
-    title:"Фрукты",
-    words:[
-      {ar:"عِنَبٌ",ru:"виноград"},
-      {ar:"بُرْتُقالٌ",ru:"апельсин"},
-      {ar:"تُفَّاحٌ",ru:"яблоко"},
-      {ar:"تَمْرٌ",ru:"финики"},
-      {ar:"تِينٌ",ru:"инжир"},
-      {ar:"رُمَّانٌ",ru:"гранат"},
-      {ar:"أناناسٌ",ru:"ананас"},
-      {ar:"فَرَاوْلة",ru:"клубника"},
-      {ar:"مَوْزٌ",ru:"банан"},
-      {ar:"طَلْحٌ",ru:"банан (тальх)"},
-      {ar:"زَيْتُونٌ",ru:"оливки, маслины"},
-    ]
-  },
+  {id:1,icon:"🌪️",color:"#fee2e2",title:"Война и конфликт",words:[
+    {ar:"غَزَا",ru:"совершил военный поход, напал",em:"⚔️",masd:"غَزْوٌ",vow:"у"},
+    {ar:"هَاجَمَ",ru:"напал, атаковал",em:"🗡️",masd:"مُهَاجَمَةٌ",vow:"и"},
+    {ar:"عَسْكَرَ",ru:"расположился лагерем",em:"🏕️",masd:"عَسْكَرَةٌ",vow:"и"},
+    {ar:"أَسَرَ",ru:"взял в плен",em:"⛓️",masd:"أَسْرٌ",vow:"и"},
+    {ar:"هَرَبَ",ru:"убежал, сбежал",em:"💨",masd:"هَرَبٌ",vow:"у"},
+    {ar:"فَرَّ",ru:"бежал с поля боя",em:"🏃",masd:"فِرَارٌ",vow:"и"},
+    {ar:"هَدَمَ",ru:"разрушил, снёс",em:"🏚️",masd:"هَدْمٌ",vow:"и"},
+    {ar:"تَحَرَّكَ",ru:"двинулся, зашевелился",em:"",masd:"تَحَرُّكٌ",vow:"а"},
+    {ar:"حَمَى",ru:"защитил, охранял",em:"🛡️",masd:"حِمَايَةٌ",vow:"и"},
+  ]},
+  {id:2,icon:"🕌",color:"#ecfdf5",title:"Религия и вера",words:[
+    {ar:"دَانَ",ru:"исповедовал веру, судил",em:"📖",masd:"دِينٌ",vow:"и"},
+    {ar:"حَجَّ",ru:"совершил паломничество",em:"🕋",masd:"حَجٌّ",vow:"у"},
+    {ar:"صَلَّى",ru:"молился, совершал намаз",em:"🕌",masd:"صَلَاةٌ",vow:"и"},
+    {ar:"لَعَنَ",ru:"проклял",em:"",masd:"لَعْنٌ",vow:"а"},
+    {ar:"رَاءَى",ru:"лицемерил, показывал напоказ",em:"🎭",masd:"مُرَاءَاةٌ",vow:"и"},
+    {ar:"اِحْتَسَبَ",ru:"ожидал награды от Бога",em:"",masd:"اِحْتِسَابٌ",vow:"и"},
+    {ar:"عَاذَ",ru:"прибег к защите Бога",em:"🛡️",masd:"عِيَاذٌ",vow:"у"},
+    {ar:"تَحَرَّى",ru:"искал истину, расследовал",em:"🔍",masd:"تَحَرٍّ",vow:"а"},
+    {ar:"اِسْتَسْلَمَ",ru:"сдался, покорился",em:"🏳️",masd:"اِسْتِسْلَامٌ",vow:"и"},
+    {ar:"اِسْتِقَامَةٌ",ru:"прямота, праведность",em:"📏"},
+  ]},
+  {id:3,icon:"⚖️",color:"#fff1f2",title:"Мораль, грех и прощение",words:[
+    {ar:"سَبَّ",ru:"ругал, оскорблял",em:"",masd:"سَبٌّ",vow:"у"},
+    {ar:"شَتَمَ",ru:"обозвал, оскорбил словами",em:"",masd:"شَتْمٌ",vow:"и"},
+    {ar:"أَذْنَبَ",ru:"согрешил, совершил проступок",em:"",masd:"إِذْنَابٌ",vow:"и"},
+    {ar:"رَفَضَ",ru:"отверг, отказал",em:"🚫",masd:"رَفْضٌ",vow:"у"},
+    {ar:"عَفَا",ru:"простил, помиловал",em:"",masd:"عَفْوٌ",vow:"у"},
+    {ar:"لَعْنَةٌ",ru:"проклятие",em:""},
+    {ar:"سَاءَ",ru:"стало плохо, ухудшилось",em:"📉",masd:"سُوءٌ",vow:"у"},
+    {ar:"بَاءَ",ru:"вернулся с позором",em:"",masd:"بَوَاءٌ",vow:"у"},
+    {ar:"حَرَّفَ",ru:"исказил, изменил текст",em:"✂️",masd:"تَحْرِيفٌ",vow:"и"},
+  ]},
+  {id:4,icon:"💬",color:"#eff6ff",title:"Речь, знание, суждение",words:[
+    {ar:"مَسْأَلَةٌ",ru:"вопрос, проблема",em:"❓"},
+    {ar:"مَعْرِفَةٌ",ru:"знание, познание",em:"📚"},
+    {ar:"حُجَّةٌ",ru:"довод, аргумент",em:"⚖️"},
+    {ar:"أَصْلٌ",ru:"основа, корень",em:"🌱"},
+    {ar:"مَشُورَةٌ",ru:"совет, консультация",em:"💬"},
+    {ar:"قِيَادَةٌ",ru:"руководство, лидерство",em:"👑"},
+    {ar:"فَقَّهَ",ru:"обучил праву, разъяснил",em:"📖",masd:"تَفْقِيهٌ",vow:"и"},
+    {ar:"نَشَرَ",ru:"распространил, опубликовал",em:"📢",masd:"نَشْرٌ",vow:"у"},
+    {ar:"وَجَّهَ",ru:"направил, ориентировал",em:"➡️",masd:"تَوْجِيهٌ",vow:"и"},
+  ]},
+  {id:5,icon:"💭",color:"#fce7f3",title:"Чувства и состояния",words:[
+    {ar:"خَزِيَ",ru:"опозорился, устыдился",em:"",masd:"خِزْيٌ",vow:"а"},
+    {ar:"هَوَى",ru:"упал, полюбил",em:"💔",masd:"هَوًى",vow:"а"},
+    {ar:"فَتَرَ",ru:"ослаб, охладел",em:"📉",masd:"فُتُورٌ",vow:"у"},
+    {ar:"قَلِقَ",ru:"беспокоился, тревожился",em:"",masd:"قَلَقٌ",vow:"а"},
+    {ar:"حَسَدَ",ru:"завидовал",em:"",masd:"حَسَدٌ",vow:"у"},
+    {ar:"كَسِلَ",ru:"ленился, бездельничал",em:"🛌",masd:"كَسَلٌ",vow:"а"},
+    {ar:"أَلْهَى",ru:"отвлёк, развлёк",em:"🎮",masd:"إِلْهَاءٌ",vow:"и"},
+    {ar:"ثَبَتَ",ru:"устоял, оставался стабильным",em:"🗿",masd:"ثُبُوتٌ",vow:"у"},
+    {ar:"رَاعَ",ru:"напугал, устрашил",em:"⚡",masd:"رَوْعٌ",vow:"у"},
+  ]},
+  {id:6,icon:"🙌",color:"#fef3c7",title:"Основные действия 1",words:[
+    {ar:"زَمَّلَ",ru:"завернул, закутал",em:"🌯",masd:"تَزْمِيلٌ",vow:"и"},
+    {ar:"قَطَعَ",ru:"отрезал, разрезал",em:"✂️",masd:"قَطْعٌ",vow:"а"},
+    {ar:"دَفَعَ",ru:"оттолкнул, заплатил",em:"💸",masd:"دَفْعٌ",vow:"а"},
+    {ar:"مَنَحَ",ru:"дал, даровал",em:"🎁",masd:"مَنْحٌ",vow:"а"},
+    {ar:"كَفَّ",ru:"удержался, прекратил",em:"✋",masd:"كَفٌّ",vow:"у"},
+    {ar:"عَرَضَ",ru:"предложил, показал",em:"📋",masd:"عَرْضٌ",vow:"и"},
+    {ar:"اِخْتَارَ",ru:"выбрал, предпочёл",em:"🎯",masd:"اِخْتِيَارٌ",vow:"а"},
+    {ar:"قَدَّرَ",ru:"оценил, определил меру",em:"⚖️",masd:"تَقْدِيرٌ",vow:"и"},
+    {ar:"سَخَّرَ",ru:"подчинил, поставил на службу",em:"⚙️",masd:"تَسْخِيرٌ",vow:"и"},
+  ]},
+  {id:7,icon:"🏗️",color:"#f0f9ff",title:"Основные действия 2",words:[
+    {ar:"بَنَى",ru:"построил, возвёл",em:"🏗️",masd:"بِنَاءٌ",vow:"и"},
+    {ar:"وَدَعَ",ru:"попрощался, оставил",em:"👋",masd:"وَدَاعٌ",vow:"а"},
+    {ar:"أَفْنَى",ru:"уничтожил, извёд",em:"💥",masd:"إِفْنَاءٌ",vow:"и"},
+    {ar:"أَبْلَى",ru:"подверг испытанию",em:"🔥",masd:"إِبْلَاءٌ",vow:"и"},
+    {ar:"اِقْتَنَى",ru:"приобрёл, стяжал",em:"🛍️",masd:"اِقْتِنَاءٌ",vow:"и"},
+    {ar:"جَدَّدَ",ru:"обновил, возродил",em:"✨",masd:"تَجْدِيدٌ",vow:"и"},
+    {ar:"خَتَمَ",ru:"запечатал, завершил",em:"🔒",masd:"خَتْمٌ",vow:"и"},
+    {ar:"نَفَضَ",ru:"стряхнул, встряхнул",em:"💨",masd:"نَفْضٌ",vow:"у"},
+    {ar:"لَجَأَ",ru:"прибегнул к убежищу",em:"🚪",masd:"لُجُوءٌ",vow:"а"},
+  ]},
+  {id:8,icon:"🏃",color:"#f5f3ff",title:"Движение и тело",words:[
+    {ar:"قَعَدَ",ru:"сидел, сел",em:"🪑",masd:"قُعُودٌ",vow:"у"},
+    {ar:"اِضْطَجَعَ",ru:"лёг, улёгся",em:"🛌",masd:"اِضْطِجَاعٌ",vow:"и"},
+    {ar:"صَعِدَ",ru:"поднялся, взошёл",em:"⬆️",masd:"صُعُودٌ",vow:"а"},
+    {ar:"نَقَرَ",ru:"клюнул, постучал",em:"🔨",masd:"نَقْرٌ",vow:"у"},
+    {ar:"نَحَرَ",ru:"зарезал (верблюда)",em:"🗡️",masd:"نَحْرٌ",vow:"а"},
+    {ar:"وَطِئَ",ru:"наступил на, топтал",em:"👣",masd:"وَطْءٌ",vow:"а"},
+    {ar:"تَبَسَّمَ",ru:"улыбнулся",em:"",masd:"تَبَسُّمٌ",vow:"а"},
+    {ar:"عَمِيَ",ru:"ослеп, потерял зрение",em:"",masd:"عَمًى",vow:"а"},
+    {ar:"شَجَّ",ru:"проломил голову, поранил",em:"💥",masd:"شَجٌّ",vow:"у"},
+  ]},
+  {id:9,icon:"⚡",color:"#fafaf0",title:"Интенсивность и перемены",words:[
+    {ar:"اِشْتَدَّ",ru:"усилился, ужесточился",em:"💪",masd:"اِشْتِدَادٌ",vow:"а"},
+    {ar:"زَلْزَلَ",ru:"потряс, поколебал",em:"🌍",masd:"زَلْزَلَةٌ",vow:"и"},
+    {ar:"عَصَفَ",ru:"бушевал (о ветре)",em:"💨",masd:"عَصْفٌ",vow:"и"},
+    {ar:"اِبْتَلَى",ru:"испытал, подверг испытанию",em:"🔥",masd:"اِبْتِلَاءٌ",vow:"и"},
+    {ar:"أَغْنَى",ru:"обогатил, избавил от нужды",em:"💰",masd:"إِغْنَاءٌ",vow:"и"},
+    {ar:"خَفَّ",ru:"стал лёгким, уменьшился",em:"🪶",masd:"خِفَّةٌ",vow:"и"},
+    {ar:"ثَقُلَ",ru:"стал тяжёлым, отяготился",em:"🏋️",masd:"ثِقَلٌ",vow:"у"},
+    {ar:"تَبَّ",ru:"погиб, потерпел крах",em:"💀",masd:"تَبَابٌ",vow:"и"},
+    {ar:"أَلْهَى",ru:"отвлёк, совратил с пути",em:"🎭",masd:"إِلْهَاءٌ",vow:"и"},
+  ]},
+  {id:10,icon:"🌿",color:"#f0fdf4",title:"Жизнь, здоровье, судьба",words:[
+    {ar:"حَيَّ",ru:"жил, здравствовал",em:"❤️",masd:"حَيَاةٌ",vow:"а"},
+    {ar:"حَيَاةٌ",ru:"жизнь",em:"🌱"},
+    {ar:"عَافَى",ru:"исцелил, даровал здоровье",em:"💊",masd:"مُعَافَاةٌ",vow:"и"},
+    {ar:"تَوَفَّى",ru:"умер, скончался",em:"💀",masd:"تَوَفٍّ",vow:"а"},
+    {ar:"أَجَلٌ",ru:"срок, назначенное время",em:"⏳"},
+    {ar:"فِطْرَةٌ",ru:"природа, врождённые качества",em:"🧬"},
+    {ar:"عُمُرٌ",ru:"возраст, жизнь",em:"⏱️"},
+    {ar:"ذُرِّيَّةٌ",ru:"потомство, дети",em:""},
+    {ar:"بَرَاءَةٌ",ru:"невиновность, патент",em:"✅"},
+  ]},
+  {id:11,icon:"🌩️",color:"#eff6ff",title:"Природа и погода",words:[
+    {ar:"بَرْقٌ",ru:"молния",em:"⚡"},
+    {ar:"رَعْدٌ",ru:"гром",em:"🌩️"},
+    {ar:"غَيْمٌ",ru:"облако, туча",em:"☁️"},
+    {ar:"رِيحٌ",ru:"ветер",em:"💨"},
+    {ar:"مَطَرٌ",ru:"дождь",em:"🌧️"},
+    {ar:"جَلِيدٌ",ru:"лёд",em:"🧊"},
+    {ar:"ضَبَابٌ",ru:"туман",em:"🌫️"},
+    {ar:"طَلٌّ",ru:"роса",em:"💧"},
+    {ar:"عَاصِفَةٌ",ru:"буря, шторм",em:"🌪️"},
+  ]},
+  {id:12,icon:"🏠",color:"#fefce8",title:"Дом и быт",words:[
+    {ar:"فِرَاشٌ",ru:"постель",em:"🛏️"},
+    {ar:"كُرْسِيٌّ",ru:"стул, кресло, трон",em:"🪑"},
+    {ar:"حَوْضٌ",ru:"бассейн, таз, водоём",em:"🛁"},
+    {ar:"إِنَاءٌ",ru:"сосуд, посуда",em:"🍶"},
+    {ar:"سُكُوتٌ",ru:"молчание, тишина",em:"🤫"},
+    {ar:"مَجْلِسٌ",ru:"зал совета, собрание",em:"🏛️"},
+    {ar:"صَالَةٌ",ru:"зал, гостиная",em:"🚪"},
+    {ar:"شَرِيكٌ",ru:"партнёр, соучастник",em:"🤝"},
+    {ar:"نَفَشَ",ru:"взъерошил, распушил",em:"🪶",masd:"نَفْشٌ",vow:"и"},
+  ]},
+  {id:13,icon:"👗",color:"#f5f3ff",title:"Одежда",words:[
+    {ar:"جَوْرَبٌ",ru:"носок",em:"🧦"},
+    {ar:"بَنْطَلُونٌ",ru:"брюки, штаны",em:"👖"},
+    {ar:"حِذَاءٌ",ru:"обувь, туфли",em:"👟"},
+    {ar:"عَبَايَةٌ",ru:"абая (женская одежда)",em:"👘"},
+    {ar:"خِمَارٌ",ru:"хиджаб, покрывало",em:"🧣"},
+    {ar:"حِزَامٌ",ru:"пояс, ремень",em:"🪢"},
+    {ar:"قَمِيصٌ",ru:"рубашка",em:"👔"},
+    {ar:"ثَوْبٌ",ru:"одежда, платье",em:"👗"},
+  ]},
+  {id:14,icon:"📱",color:"#f0fdf4",title:"Технологии",words:[
+    {ar:"تِلْفَازٌ",ru:"телевизор",em:"📺"},
+    {ar:"فِيلْمٌ",ru:"фильм",em:"🎬"},
+    {ar:"سَمَّاعَةٌ",ru:"наушник, гарнитура",em:"🎧"},
+    {ar:"شَاشَةٌ",ru:"экран",em:"🖥️"},
+    {ar:"حِسَابٌ",ru:"аккаунт, счёт",em:"💳"},
+    {ar:"هَاتِفٌ",ru:"телефон",em:"📱"},
+    {ar:"فِيدِيو",ru:"видео",em:"🎥"},
+    {ar:"كَامِيرَا",ru:"камера",em:"📸"},
+    {ar:"حَاسُوبٌ",ru:"компьютер",em:"💻"},
+    {ar:"جِهَازٌ",ru:"устройство, прибор",em:"📟"},
+  ]},
+  {id:15,icon:"🌈",color:"#fff7ed",title:"Цвета",words:[
+    {ar:"أَحْمَرُ",ru:"красный",em:"🔴"},
+    {ar:"أَبْيَضُ",ru:"белый",em:"⚪"},
+    {ar:"أَسْوَدُ",ru:"чёрный",em:"⚫"},
+    {ar:"أَصْفَرُ",ru:"жёлтый",em:"🟡"},
+    {ar:"أَزْرَقُ",ru:"синий, голубой",em:"🔵"},
+    {ar:"أَخْضَرُ",ru:"зелёный",em:"🟢"},
+  ]},
+  {id:16,icon:"📊",color:"#fdf4ff",title:"Прилагательные: противоположности",words:[
+    {ar:"وَاسِعٌ",ru:"широкий, просторный",em:"↔️"},
+    {ar:"ضَيِّقٌ",ru:"узкий, тесный",em:""},
+    {ar:"طَوِيلٌ",ru:"длинный, высокий",em:"📏"},
+    {ar:"قَصِيرٌ",ru:"короткий, низкий",em:""},
+    {ar:"كَبِيرٌ",ru:"большой, старший",em:"🔷"},
+    {ar:"صَغِيرٌ",ru:"маленький, младший",em:"🔹"},
+    {ar:"جَمِيلٌ",ru:"красивый, прекрасный",em:"💎"},
+    {ar:"قَبِيحٌ",ru:"некрасивый, уродливый",em:""},
+    {ar:"قَوِيٌّ",ru:"сильный, крепкий",em:"💪"},
+    {ar:"ضَعِيفٌ",ru:"слабый",em:""},
+  ]},
+  {id:17,icon:"⭐",color:"#fef9c3",title:"Прилагательные: качество",words:[
+    {ar:"عَجِيبٌ",ru:"удивительный, странный",em:"❓"},
+    {ar:"عَادِيٌّ",ru:"обычный, нормальный",em:""},
+    {ar:"صَعْبٌ",ru:"трудный, сложный",em:"🧗"},
+    {ar:"أَشَدُّ",ru:"сильнейший, наиболее интенсивный",em:"🔝"},
+    {ar:"أَبْقَى",ru:"более долговечный, вечный",em:"♾️"},
+    {ar:"أَسْمَى",ru:"высочайший, возвышенный",em:"🏔️"},
+    {ar:"أَعْظَمُ",ru:"величайший",em:"👑"},
+    {ar:"أَدْنَى",ru:"ближайший, низший",em:"⬇️"},
+    {ar:"أَحْكَمُ",ru:"мудрейший",em:"⚖️"},
+  ]},
+  {id:18,icon:"❤️",color:"#fff1f2",title:"Лучший, худший и другие",words:[
+    {ar:"أَحَبُّ",ru:"любимейший, наиболее любимый",em:"❤️"},
+    {ar:"خَيْرٌ",ru:"лучший, добро",em:"✅"},
+    {ar:"شَرٌّ",ru:"худший, зло",em:"❌"},
+    {ar:"أَبْتَرُ",ru:"бездетный, обрубленный",em:""},
+    {ar:"وَيْلٌ",ru:"горе, беда, несчастье",em:"💔"},
+    {ar:"هَوَانٌ",ru:"унижение, презрение",em:"⬇️"},
+    {ar:"خَصْلَةٌ",ru:"качество, черта характера",em:""},
+    {ar:"وَتْرٌ",ru:"нечётное число, струна",em:"🎻"},
+    {ar:"شَفْعٌ",ru:"чётное число, пара",em:""},
+  ]},
+  {id:19,icon:"🔢",color:"#ecfdf5",title:"Порядковые числительные",words:[
+    {ar:"الأَوَّلُ",ru:"первый",em:"1️⃣"},
+    {ar:"الثَّانِي",ru:"второй",em:"2️⃣"},
+    {ar:"الثَّالِثُ",ru:"третий",em:"3️⃣"},
+    {ar:"الرَّابِعُ",ru:"четвёртый",em:"4️⃣"},
+    {ar:"الخَامِسُ",ru:"пятый",em:"5️⃣"},
+    {ar:"السَّادِسُ",ru:"шестой",em:"6️⃣"},
+    {ar:"السَّابِعُ",ru:"седьмой",em:"7️⃣"},
+    {ar:"الثَّامِنُ",ru:"восьмой",em:"8️⃣"},
+    {ar:"التَّاسِعُ",ru:"девятый",em:"9️⃣"},
+    {ar:"العَاشِرُ",ru:"десятый",em:"🔟"},
+  ]},
+  {id:20,icon:"🧩",color:"#f0fdf4",title:"Разные существительные",words:[
+    {ar:"قَافِلَةٌ",ru:"караван",em:"🐪"},
+    {ar:"فِيلٌ",ru:"слон",em:""},
+    {ar:"كَنِيسَةٌ",ru:"церковь, синагога",em:"⛪"},
+    {ar:"إِلَهٌ",ru:"бог, божество",em:"🌟"},
+    {ar:"مَوْلَى",ru:"хозяин, покровитель",em:"👑"},
+    {ar:"عَشِيرَةٌ",ru:"племя, род",em:"🏕️"},
+    {ar:"فَلَقٌ",ru:"рассвет, расщелина",em:"🌅"},
+    {ar:"قَرْنٌ",ru:"рог, век (100 лет)",em:"📯"},
+    {ar:"سِنٌّ",ru:"зуб, возраст",em:"🦷"},
+    {ar:"شِقٌّ",ru:"трещина, раскол",em:"🪨"},
+  ]},
+  {id:21,icon:"🕊️",color:"#fdf4ff",title:"Духовная жизнь",words:[
+    {ar:"صَلَاةٌ",ru:"намаз, молитва",em:"🕌"},
+    {ar:"رِيَاضَةٌ",ru:"спорт, физкультура",em:"🏃"},
+    {ar:"بَارَكَ",ru:"благословил",em:"🌟",masd:"مُبَارَكَةٌ",vow:"и"},
+    {ar:"عَفَا",ru:"простил, помиловал",em:"",masd:"عَفْوٌ",vow:"у"},
+    {ar:"وَكَلَ",ru:"поручил, доверил",em:"🤝",masd:"وَكَالَةٌ",vow:"и"},
+    {ar:"سَهَا",ru:"забыл, отвлёкся",em:"",masd:"سَهْوٌ",vow:"у"},
+    {ar:"كَسَبَ",ru:"заработал, приобрёл",em:"💰",masd:"كَسْبٌ",vow:"и"},
+    {ar:"مَالَ",ru:"наклонился, склонился",em:"↗️",masd:"مَيْلٌ",vow:"и"},
+    {ar:"أَبْشَرَ",ru:"обрадовал, осчастливил",em:"🎉",masd:"إِبْشَارٌ",vow:"и"},
+  ]},
+  {id:22,icon:"🗺️",color:"#fef9c3",title:"Поход и путешествие",words:[
+    {ar:"جَهَّزَ",ru:"снарядил, подготовил",em:"🎒",masd:"تَجْهِيزٌ",vow:"и"},
+    {ar:"أَسْفَرَ",ru:"рассвело; отправился в путь",em:"🌅",masd:"إِسْفَارٌ",vow:"и"},
+    {ar:"قَافِلَةٌ",ru:"караван",em:"🐪"},
+    {ar:"هَاجَمَ",ru:"напал, атаковал",em:"🗡️",masd:"مُهَاجَمَةٌ",vow:"и"},
+    {ar:"فَرَّ",ru:"сбежал с поля боя",em:"💨",masd:"فِرَارٌ",vow:"и"},
+    {ar:"غَسَقَ",ru:"наступала темнота, сумерки",em:"🌆",masd:"غَسَقٌ",vow:"и"},
+    {ar:"فَلَقٌ",ru:"рассвет",em:"🌅"},
+    {ar:"تَشَرَّفَ",ru:"удостоился чести",em:"🏅",masd:"تَشَرُّفٌ",vow:"а"},
+    {ar:"زَوَّجَ",ru:"поженил, выдал замуж",em:"💍",masd:"تَزْوِيجٌ",vow:"и"},
+  ]},
+  {id:23,icon:"🔢",color:"#e0f2fe",title:"Числительные (0–10)",words:[
+    {ar:"صِفْر",ru:"ноль",em:"0️⃣"},
+    {ar:"وَاحِد",ru:"один",em:"1️⃣"},
+    {ar:"اِثْنان",ru:"два",em:"2️⃣"},
+    {ar:"ثَلاثَة",ru:"три",em:"3️⃣"},
+    {ar:"أرْبَعَة",ru:"четыре",em:"4️⃣"},
+    {ar:"خَمْسَة",ru:"пять",em:"5️⃣"},
+    {ar:"سِتَّة",ru:"шесть",em:"6️⃣"},
+    {ar:"سَبْعَة",ru:"семь",em:"7️⃣"},
+    {ar:"ثَمانِيَة",ru:"восемь",em:"8️⃣"},
+    {ar:"تِسْعَة",ru:"девять",em:"9️⃣"},
+    {ar:"عَشْرَة",ru:"десять",em:"🔟"},
+  ]},
+  {id:24,icon:"🌙",color:"#ede9fe",title:"Время суток",words:[
+    {ar:"لَيْلٌ",ru:"ночь",em:"🌙"},
+    {ar:"مُنْتَصَفُ اللَّيْلِ",ru:"полночь",em:"🕛"},
+    {ar:"مَسَاءٌ",ru:"вечер",em:"🌆"},
+    {ar:"نَهَارٌ",ru:"день (светлое время)",em:"☀️"},
+    {ar:"صَبَاحٌ",ru:"утро",em:"🌅"},
+    {ar:"شُرُوقُ الشَّمْسِ",ru:"восход солнца",em:"🌄"},
+    {ar:"غُرُوبُ الشَّمْسِ",ru:"закат солнца",em:"🌇"},
+    {ar:"بُكْرَة",ru:"раннее утро",em:"🌤️"},
+  ]},
+  {id:25,icon:"⏳",color:"#fef3c7",title:"Время и обстоятельства",words:[
+    {ar:"عَامٌ",ru:"год",em:"📅"},
+    {ar:"شَهْرٌ",ru:"месяц",em:"🗓️"},
+    {ar:"أسْبُوعٌ",ru:"неделя",em:"📆"},
+    {ar:"غَداً",ru:"завтра",em:"➡️"},
+    {ar:"قَرْنٌ",ru:"век (100 лет)",em:"📯"},
+    {ar:"أثْناء",ru:"во время, в течение",em:"⏱️"},
+    {ar:"حِينٌ",ru:"пора, момент",em:"⌚"},
+    {ar:"بَيْنَ",ru:"между",em:"↔️"},
+    {ar:"وَراء",ru:"позади, за",em:"⬅️"},
+    {ar:"تِلْقاء",ru:"напротив, в сторону",em:"➡️"},
+  ]},
+  {id:26,icon:"📜",color:"#f3f4f6",title:"Термины хадиса",words:[
+    {ar:"حَدِيثٌ",ru:"хадис",em:"📜"},
+    {ar:"أحَادِيثُ",ru:"хадисы",em:"📚"},
+    {ar:"رَقْمٌ",ru:"номер",em:"🔢"},
+    {ar:"الرَّاوِي",ru:"передатчик хадиса",em:"📢"},
+    {ar:"إسْنادٌ",ru:"иснад (цепочка передачи)",em:"🔗"},
+    {ar:"تَحْقِيقٌ",ru:"критическая проверка",em:"🔍"},
+    {ar:"شَرْحٌ",ru:"комментарий, разъяснение",em:"📝"},
+    {ar:"تَفْسِيرٌ",ru:"толкование (тафсир)",em:"📖"},
+    {ar:"مَصْدَرٌ",ru:"источник",em:"📌"},
+    {ar:"مُصَنَّفٌ",ru:"сборник, сочинение",em:"📕"},
+  ]},
+  {id:27,icon:"⚖️",color:"#fae8ff",title:"Противоположности: имена",words:[
+    {ar:"صِحَّةٌ",ru:"достоверность, правильность",em:"✅"},
+    {ar:"بُطْلانٌ",ru:"недействительность",em:"❌"},
+    {ar:"صَلاحٌ",ru:"праведность, исправность",em:"🌟"},
+    {ar:"فَسَادٌ",ru:"порча, разложение",em:"📉"},
+    {ar:"سُرُورٌ",ru:"радость",em:"🎉"},
+    {ar:"حُزْنٌ",ru:"печаль, скорбь",em:"💔"},
+    {ar:"عِلْمٌ",ru:"знание",em:"📚"},
+    {ar:"جَهْلٌ",ru:"невежество",em:"❓"},
+    {ar:"غِنًى",ru:"богатство",em:"💰"},
+    {ar:"فَقْرٌ",ru:"бедность",em:""},
+  ]},
+  {id:28,icon:"🔁",color:"#dbeafe",title:"Противоположности: прилагательные",words:[
+    {ar:"طَيِّبٌ",ru:"хороший, благой",em:"✅"},
+    {ar:"خَبِيثٌ",ru:"скверный, дурной",em:"❌"},
+    {ar:"صَالِحٌ",ru:"праведный, добрый",em:"🌟"},
+    {ar:"فَاسِدٌ",ru:"испорченный, негодный",em:"🚫"},
+    {ar:"عَالِمٌ",ru:"знающий, учёный",em:"📚"},
+    {ar:"جَاهِلٌ",ru:"невежественный",em:"❓"},
+    {ar:"مُهِمٌّ",ru:"важный",em:"❗"},
+    {ar:"حَقِيرٌ",ru:"ничтожный, презренный",em:"⬇️"},
+    {ar:"صَحِيحٌ",ru:"достоверный, правильный",em:"✅"},
+    {ar:"بَاطِلٌ",ru:"ложный, недействительный",em:"❌"},
+  ]},
+  {id:29,icon:"🧭",color:"#dcfce7",title:"Стороны света",words:[
+    {ar:"شَرْقٌ",ru:"восток",em:"🌅"},
+    {ar:"شِمالٌ",ru:"север",em:"⬆️"},
+    {ar:"غَرْبٌ",ru:"запад",em:"🌇"},
+    {ar:"جَنوبٌ",ru:"юг",em:"⬇️"},
+  ]},
+  {id:30,icon:"🍇",color:"#fce7f3",title:"Фрукты",words:[
+    {ar:"عِنَبٌ",ru:"виноград",em:"🍇"},
+    {ar:"بُرْتُقالٌ",ru:"апельсин",em:"🍊"},
+    {ar:"تُفَّاحٌ",ru:"яблоко",em:"🍎"},
+    {ar:"تَمْرٌ",ru:"финики",em:"🌴"},
+    {ar:"تِينٌ",ru:"инжир",em:""},
+    {ar:"رُمَّانٌ",ru:"гранат",em:""},
+    {ar:"مَوْزٌ",ru:"банан",em:"🍌"},
+    {ar:"زَيْتُونٌ",ru:"оливки, маслины",em:"🫒"},
+  ]},
 ];
 
+// ── strip diacritics ──────────────────────────────────────────
 function stripDiac(s){
-  return s
-    .replace(/[\u064B-\u065F\u0670\u0671\u0640]/g,'')
-    .replace(/[أإآٱ]/g,'ا')
-    .replace(/[ىئ]/g,'ي')
-    .trim();
+  return s.replace(/[\u064B-\u065F\u0670\u0671\u0640]/g,'')
+          .replace(/[أإآٱ]/g,'ا').replace(/[ىئ]/g,'ي').trim();
 }
 
+// ── scores ────────────────────────────────────────────────────
 let scores={};
-try{scores=JSON.parse(localStorage.getItem('ar_scores2')||'{}');}catch(e){scores={};}
+try{scores=JSON.parse(localStorage.getItem('ar_scores3')||'{}');}catch(e){}
 function saveScore(id,ok,total){
   scores[id]={ok,total};
-  try{localStorage.setItem('ar_scores2',JSON.stringify(scores));}catch(e){}
+  try{localStorage.setItem('ar_scores3',JSON.stringify(scores));}catch(e){}
 }
 
-let curChapter=null,curMode='flash';
-let deck=[],idx=0,okCount=0,noCount=0,wrongCards=[];
-let flashFlipped=false,flashAnswered=false,mcAnswered=false,writeChecked=false;
+// ── state ─────────────────────────────────────────────────────
+let curChapter=null, curMode='learn';
+let deck=[], idx=0, okCount=0, noCount=0, wrongCards=[];
+let retrySet=new Set(); // cards already retried once (regular modes)
+let learnRetrySet=new Set(); // cards already retried once (learn mode)
+let flashFlipped=false, flashAnswered=false, mcAnswered=false, writeChecked=false;
 
+// learn-mode state
+// flatQueue = [{word, step, roundIdx}] — все шаги всех слов, перемешанные по раундам
+let learnQueue=[];
+let learnQIdx=0;
+let learnOk=0, learnNo=0;
+
+// ── home ──────────────────────────────────────────────────────
 function buildHome(){
   try{
     const grid=document.getElementById('chapter-grid');
-    if(!grid){console.error('No chapter-grid');return;}
     grid.innerHTML='';
     CHAPTERS.forEach(ch=>{
       const sc=scores[ch.id];
       const hasSc=sc&&sc.total>0;
       const pct=hasSc?Math.round(sc.ok/sc.total*100):null;
-      let stars='';
-      if(pct!==null){stars=pct>=90?'⭐⭐⭐':pct>=70?'⭐⭐':pct>=50?'⭐':'—';}
+      let stars=pct!==null?(pct>=90?'⭐⭐⭐':pct>=70?'⭐⭐':pct>=50?'⭐':'—'):'';
       const d=document.createElement('div');
-      d.className='chapter-card'+(pct!==null&&pct>=90?' done':'');
+      d.className='chapter-card'+(pct>=90?' done':'');
       d.innerHTML=`<div class="ch-icon" style="background:${ch.color}">${ch.icon}</div>
         <div class="ch-info">
           <div class="ch-title">${ch.title}</div>
-          <div class="ch-sub">${ch.words.length} слов</div>
-          ${hasSc?`<div class="ch-stars">${stars} ${pct}%</div>`:''}
+          <div class="ch-sub">${ch.words.length} слов${hasSc?' · '+stars+' '+pct+'%':''}</div>
         </div>
-        <span style="color:var(--muted);font-size:18px;">›</span>`;
+        <span style="color:var(--muted);font-size:20px;">›</span>`;
       d.onclick=()=>openChapter(ch);
       grid.appendChild(d);
     });
-  }catch(e){console.error('buildHome error:',e);}
+  }catch(e){
+    document.getElementById('chapter-grid').innerHTML=
+      `<div style="padding:1rem;background:#fef2f2;border-radius:12px;color:#dc2626;font-size:13px;">Ошибка: ${e.message}</div>`;
+  }
 }
 
 function openChapter(ch){
@@ -801,18 +786,27 @@ function openChapter(ch){
   document.getElementById('ch-sub-big').textContent=ch.words.length+' слов';
   const prev=document.getElementById('word-preview');
   prev.innerHTML=ch.words.slice(0,6).map(w=>
-    `<span style="display:inline-block;margin:2px 3px;background:${ch.color};border-radius:5px;padding:2px 7px;font-family:'Scheherazade New',serif;font-size:16px;direction:rtl;">${w.ar}</span>`
+    `<span style="display:inline-block;margin:2px 3px;background:${ch.color};border-radius:5px;padding:2px 8px;font-family:'Scheherazade New',serif;font-size:16px;direction:rtl;">${w.em?w.em+' ':''}</span>`+
+    `<span style="display:inline-block;margin:2px 3px;background:${ch.color};border-radius:5px;padding:2px 8px;font-family:'Scheherazade New',serif;font-size:16px;direction:rtl;">${w.ar}</span>`
   ).join('')+(ch.words.length>6?`<span style="font-size:11px;color:var(--muted);margin-left:3px;">+${ch.words.length-6} ещё</span>`:'');
+  // reset mode highlight
+  ['learn','flash','mc','mc2','write'].forEach(id=>{
+    const el=document.getElementById('mc-'+id);
+    el.style.borderColor='var(--border)';
+    el.style.background='var(--card)';
+    el.style.color='var(--dark)';
+  });
+  highlightMode('learn');
+  curMode='learn';
   showScreen('screen-chapter');
   document.getElementById('nav-info').textContent=ch.title;
 }
 
 function goHome(){buildHome();showScreen('screen-home');document.getElementById('nav-info').textContent='Выбери главу';}
-function goChapter(){openChapter(curChapter);showScreen('screen-chapter');}
+function goChapter(){openChapter(curChapter);}
 
-function selectMode(m){
-  curMode=m;
-  ['flash','mc','mc2','write'].forEach(id=>{
+function highlightMode(m){
+  ['learn','flash','mc','mc2','write'].forEach(id=>{
     const el=document.getElementById('mc-'+id);
     const on=id===m;
     el.style.borderColor=on?'var(--dark)':'var(--border)';
@@ -820,33 +814,139 @@ function selectMode(m){
     el.style.color=on?'#fff':'var(--dark)';
   });
 }
-selectMode('flash');
 
+function pickMode(m){
+  curMode=m;
+  highlightMode(m);
+  startStudy();   // start immediately on tap
+}
+
+// ── study bootstrap ───────────────────────────────────────────
 function startStudy(){
-  deck=shuffle([...curChapter.words]);
-  idx=0;okCount=0;noCount=0;wrongCards=[];
-  showScreen('screen-study');
-  document.getElementById('study-title').textContent=curChapter.icon+' '+curChapter.title;
+  okCount=0;noCount=0;wrongCards=[];retrySet=new Set();
   const pf=document.getElementById('prog-fill');
-  pf.className='prog-fill pf-'+curMode;
-  renderCard();
+  document.getElementById('study-title').textContent=curChapter.icon+' '+curChapter.title;
+  showScreen('screen-study');
+
+  if(curMode==='learn'){
+    pf.className='prog-fill pf-learn';
+    startLearn();
+  } else {
+    deck=shuffle([...curChapter.words]);
+    idx=0;
+    pf.className='prog-fill pf-'+curMode;
+    renderCard();
+  }
 }
 
 function restartStudy(onlyWrong){
+  if(curMode==='learn'){
+    startLearn(); return;
+  }
   const src=onlyWrong&&wrongCards.length>0?wrongCards:[...curChapter.words];
-  deck=shuffle(src);idx=0;okCount=0;noCount=0;wrongCards=[];
+  deck=shuffle(src);idx=0;okCount=0;noCount=0;wrongCards=[];retrySet=new Set();
   showScreen('screen-study');renderCard();
 }
 
+// ── LEARN MODE ────────────────────────────────────────────────
+// For each word: 3 steps [mc, mc2, write] + 1 random repeat = 4 steps total
+// But instead of doing all 4 steps per word in a row,
+// we split into rounds: round0 = first step of every word (shuffled),
+// round1 = second step of every word (shuffled), etc.
+// This way words interleave naturally.
+function startLearn(){
+  const words=shuffle([...curChapter.words]);
+  // assign steps to each word
+  const wordSteps=words.map(w=>{
+    const base=['mc','mc2','write'];
+    const extra=base[Math.floor(Math.random()*base.length)];
+    return {word:w, steps:shuffle([...base,extra])};
+  });
+  // build flat queue round by round
+  learnQueue=[];
+  for(let r=0;r<4;r++){
+    const round=shuffle(wordSteps.map(ws=>({word:ws.word, step:ws.steps[r], round:r, totalRounds:4})));
+    learnQueue.push(...round);
+  }
+  learnQIdx=0; learnOk=0; learnNo=0; learnRetrySet=new Set();
+  document.getElementById('mode-learn-ui').classList.remove('hidden');
+  renderLearn();
+}
+
+function renderLearnDots(round, totalRounds){
+  const cont=document.getElementById('learn-dots');
+  cont.innerHTML=Array.from({length:totalRounds},(_,i)=>
+    `<div class="learn-dot ${i<round?'done':i===round?'active':''}"></div>`
+  ).join('');
+}
+
+function renderLearn(){
+  if(learnQIdx>=learnQueue.length){showLearnResult();return;}
+  const {word, step, round, totalRounds}=learnQueue[learnQIdx];
+  renderLearnDots(round, totalRounds);
+
+  const total=learnQueue.length;
+  document.getElementById('prog-fill').style.width=Math.round(learnQIdx/total*100)+'%';
+  document.getElementById('study-prog').textContent=(learnQIdx+1)+'/'+total;
+  document.getElementById('ms-ok').textContent=learnOk;
+  document.getElementById('ms-no').textContent=learnNo;
+  document.getElementById('ms-left').textContent=total-learnQIdx;
+
+  ['flash','mc','mc2','write'].forEach(id=>document.getElementById('mode-'+id).classList.add('hidden'));
+  document.getElementById('mode-learn-ui').classList.remove('hidden');
+
+  if(step==='mc') renderMC(word, true);
+  else if(step==='mc2') renderMC2(word, true);
+  else renderWrite(word, true);
+}
+
+function learnAnswered(isOk){
+  const item=learnQueue[learnQIdx];
+  const {word}=item;
+  if(isOk){learnOk++;}else{
+    learnNo++;
+    // retry once: insert same step right after current position
+    const key=word.ar+'_'+item.step;
+    if(!learnRetrySet.has(key)){
+      learnRetrySet.add(key);
+      learnQueue.splice(learnQIdx+1,0,{...item, isRetry:true});
+    }
+  }
+  showWordOverlay(word, isOk, ()=>{
+    learnQIdx++;
+    renderLearn();
+  });
+}
+
+function showLearnResult(){
+  const total=learnOk+learnNo;
+  const pct=total?Math.round(learnOk/total*100):0;
+  saveScore(curChapter.id, learnOk, total);
+  document.getElementById('res-ok').textContent=learnOk;
+  document.getElementById('res-no').textContent=learnNo;
+  document.getElementById('res-pct').textContent=pct+'%';
+  let emoji='🌟',title='Отлично!';
+  if(pct<50){emoji='💪';title='Продолжай учить!';}
+  else if(pct<80){emoji='👍';title='Хороший результат!';}
+  document.getElementById('res-emoji').textContent=emoji;
+  document.getElementById('res-title').textContent=title;
+  document.getElementById('res-sub').textContent='Глава: '+curChapter.title+' · '+pct+'% правильно';
+  document.getElementById('retry-wrong').style.display='none';
+  showScreen('screen-result');
+  buildHome();
+  if(pct>=70)soundDone();
+}
+
+// ── regular mode render ───────────────────────────────────────
 function renderCard(){
   ['flash','mc','mc2','write'].forEach(id=>document.getElementById('mode-'+id).classList.add('hidden'));
-  document.getElementById('mode-'+curMode).classList.remove('hidden');
+  document.getElementById('mode-learn-ui').classList.add('hidden');
   updateProgress();
   const card=deck[idx];
   if(curMode==='flash')renderFlash(card);
-  else if(curMode==='mc')renderMC(card);
-  else if(curMode==='mc2')renderMC2(card);
-  else renderWrite(card);
+  else if(curMode==='mc')renderMC(card,false);
+  else if(curMode==='mc2')renderMC2(card,false);
+  else renderWrite(card,false);
 }
 
 function updateProgress(){
@@ -858,51 +958,139 @@ function updateProgress(){
   document.getElementById('ms-left').textContent=total-idx;
 }
 
-// FLASHCARD
+function nextCard(){
+  idx++;
+  if(idx>=deck.length){showResult();return;}
+  renderCard();
+}
+
+// Insert card for retry right after current position (regular modes)
+function scheduleRetry(card){
+  // insert after current idx so it comes up next
+  deck.splice(idx+1, 0, card);
+}
+
+// ── SPEECH ────────────────────────────────────────────────────
+function speak(text){
+  if(!window.speechSynthesis)return;
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='ar-SA';u.rate=0.82;u.pitch=1.0;
+  const voices=window.speechSynthesis.getVoices();
+  const v=voices.find(v=>v.lang==='ar-SA'&&v.name.includes('Majed'))
+          ||voices.find(v=>v.lang==='ar-SA')
+          ||voices.find(v=>v.lang.startsWith('ar'));
+  if(v)u.voice=v;
+  window.speechSynthesis.speak(u);
+}
+if(window.speechSynthesis&&window.speechSynthesis.onvoiceschanged!==undefined)
+  window.speechSynthesis.onvoiceschanged=()=>{};
+
+// ── OVERLAY ───────────────────────────────────────────────────
+let _overlayDone=null;
+function showWordOverlay(card,isOk,onDone){
+  _overlayDone=onDone;
+  document.getElementById('ov-emoji').textContent=card.em||'';
+  document.getElementById('ov-ar').textContent=card.ar;
+  document.getElementById('ov-ru').textContent=card.ru;
+  // masdar + vowel
+  const masdEl=document.getElementById('ov-masd');
+  const vowEl=document.getElementById('ov-vow');
+  if(card.masd){
+    masdEl.textContent=card.masd;
+    vowEl.textContent=card.vow||'';
+    vowEl.style.display=card.vow?'inline':'none';
+  } else {
+    masdEl.textContent='';
+    vowEl.style.display='none';
+  }
+  document.getElementById('word-overlay').className='show '+(isOk?'correct-bg':'wrong-bg');
+  setTimeout(()=>speak(card.ar),150);
+}
+function overlayNext(){
+  document.getElementById('word-overlay').className='';
+  if(_overlayDone){const fn=_overlayDone;_overlayDone=null;setTimeout(fn,150);}
+}
+
+// ── FLASHCARD ─────────────────────────────────────────────────
 function renderFlash(card){
   flashFlipped=false;flashAnswered=false;
   document.getElementById('card3d').classList.remove('flipped');
   document.getElementById('flash-ans').classList.add('hidden');
-  document.getElementById('flash-next').classList.add('hidden');
   document.getElementById('flip-hint').classList.remove('hidden');
+  document.getElementById('mode-flash').classList.remove('hidden');
   const arFront=Math.random()>.4;
+  const ffEmoji=document.getElementById('ff-emoji');
   if(arFront){
     document.getElementById('ff-tag').textContent='АРАБСКИЙ';
-    const fw=document.getElementById('ff-word');fw.textContent=card.ar;fw.className='main-word';
+    document.getElementById('ff-word').textContent=card.ar;
+    document.getElementById('ff-word').className='main-word';
+    ffEmoji.textContent=''; // emoji hidden until flipped
     document.getElementById('fb-tag').textContent='ПЕРЕВОД';
-    const bw=document.getElementById('fb-word');bw.textContent=card.ru;bw.className='main-word ltr';
+    document.getElementById('fb-word').textContent=card.ru;
+    document.getElementById('fb-word').className='main-word ltr';
   } else {
     document.getElementById('ff-tag').textContent='ПЕРЕВОД';
-    const fw=document.getElementById('ff-word');fw.textContent=card.ru;fw.className='main-word ltr';
+    document.getElementById('ff-word').textContent=card.ru;
+    document.getElementById('ff-word').className='main-word ltr';
+    ffEmoji.textContent='';
     document.getElementById('fb-tag').textContent='АРАБСКИЙ';
-    const bw=document.getElementById('fb-word');bw.textContent=card.ar;bw.className='main-word';
+    document.getElementById('fb-word').textContent=card.ar;
+    document.getElementById('fb-word').className='main-word';
   }
+  // store emoji and masdar for reveal after flip
+  document.getElementById('card3d').dataset.em=card.em||'';
+  document.getElementById('card3d').dataset.masd=card.masd||'';
+  document.getElementById('card3d').dataset.vow=card.vow||'';
 }
 function flipCard(){
   if(flashAnswered)return;
   flashFlipped=!flashFlipped;
+  soundFlip();
   document.getElementById('card3d').classList.toggle('flipped',flashFlipped);
+  document.getElementById('flip-hint').classList.toggle('hidden',flashFlipped);
+  document.getElementById('flash-ans').classList.toggle('hidden',!flashFlipped);
+  // reveal emoji and masdar after flip
   if(flashFlipped){
-    document.getElementById('flip-hint').classList.add('hidden');
-    document.getElementById('flash-ans').classList.remove('hidden');
-  } else {
-    document.getElementById('flip-hint').classList.remove('hidden');
-    document.getElementById('flash-ans').classList.add('hidden');
+    const ds=document.getElementById('card3d').dataset;
+    document.getElementById('ff-emoji').textContent=ds.em||'';
+    const fbMeta=document.getElementById('fb-verb-meta');
+    if(ds.masd){
+      document.getElementById('fb-masd').textContent=ds.masd;
+      document.getElementById('fb-vow').textContent=ds.vow||'';
+      document.getElementById('fb-vow').style.display=ds.vow?'inline':'none';
+      fbMeta.style.display='flex';
+    } else { fbMeta.style.display='none'; }
   }
 }
 function flashAnswer(ok){
   flashAnswered=true;
   document.getElementById('flash-ans').classList.add('hidden');
-  document.getElementById('flash-next').classList.remove('hidden');
-  if(ok)okCount++;else{noCount++;wrongCards.push(deck[idx]);}
+  const card=deck[idx];
+  if(ok){okCount++;soundCorrect();}else{
+    noCount++;wrongCards.push(card);soundWrong();
+    if(!retrySet.has(card.ar)){retrySet.add(card.ar);scheduleRetry(card);}
+  }
   updateProgress();
-  setTimeout(nextCard, 700);
+  showWordOverlay(card,ok,nextCard);
 }
 
-// MC — выбор перевода
-function renderMC(card){
+// ── MC (выбор перевода) ───────────────────────────────────────
+function renderMC(card, isLearn){
   mcAnswered=false;
-  const mw=document.getElementById('mc-word');mw.textContent=card.ar;mw.className='mc-word';
+  document.getElementById('mode-mc').classList.remove('hidden');
+  const em=document.getElementById('mc-emoji');
+  em.textContent='';em.style.display='none'; // emoji hidden until answer
+  document.getElementById('mc-word').textContent=card.ar;
+  document.getElementById('mc-word').className='mc-word';
+  // masdar in question
+  const meta=document.getElementById('mc-verb-meta');
+  if(card.masd){
+    document.getElementById('mc-masd').textContent=card.masd;
+    document.getElementById('mc-vow').textContent=card.vow||'';
+    document.getElementById('mc-vow').style.display=card.vow?'inline':'none';
+    meta.style.display='flex';
+  } else { meta.style.display='none'; }
   const opts=getOptions(card);
   const cont=document.getElementById('mc-opts');cont.innerHTML='';
   opts.forEach(opt=>{
@@ -911,22 +1099,26 @@ function renderMC(card){
     b.onclick=()=>{
       if(mcAnswered)return;mcAnswered=true;
       const isOk=opt.ar===card.ar;
+      isOk?soundCorrect():soundWrong();
       b.classList.add(isOk?'correct':'wrong');
-      if(!isOk){
-        cont.querySelectorAll('.mc-opt').forEach(btn=>{if(btn.textContent===card.ru)btn.classList.add('correct');});
-        noCount++;wrongCards.push(card);
-      } else okCount++;
-      updateProgress();
-      setTimeout(nextCard, isOk ? 600 : 1400);
+      if(!isOk)cont.querySelectorAll('.mc-opt').forEach(btn=>{if(btn.textContent===card.ru)btn.classList.add('correct');});
+      if(isLearn){learnAnswered(isOk);}
+      else{
+        if(isOk){okCount++;}else{noCount++;wrongCards.push(card);if(!retrySet.has(card.ar)){retrySet.add(card.ar);scheduleRetry(card);}}
+        updateProgress();showWordOverlay(card,isOk,nextCard);
+      }
     };
     cont.appendChild(b);
   });
 }
 
-// MC2 — выбор арабского
-function renderMC2(card){
+// ── MC2 (выбор арабского) ─────────────────────────────────────
+function renderMC2(card, isLearn){
   mcAnswered=false;
-  const mw=document.getElementById('mc2-word');mw.textContent=card.ru;
+  document.getElementById('mode-mc2').classList.remove('hidden');
+  const em=document.getElementById('mc2-emoji');
+  em.textContent='';em.style.display='none'; // emoji hidden until answer
+  document.getElementById('mc2-word').textContent=card.ru;
   const opts=getOptions(card);
   const cont=document.getElementById('mc2-opts');cont.innerHTML='';
   opts.forEach(opt=>{
@@ -935,31 +1127,25 @@ function renderMC2(card){
     b.onclick=()=>{
       if(mcAnswered)return;mcAnswered=true;
       const isOk=opt.ar===card.ar;
+      isOk?soundCorrect():soundWrong();
       b.classList.add(isOk?'correct':'wrong');
-      if(!isOk){
-        cont.querySelectorAll('.mc-opt').forEach(btn=>{if(btn.textContent===card.ar)btn.classList.add('correct');});
-        noCount++;wrongCards.push(card);
-      } else okCount++;
-      updateProgress();
-      setTimeout(nextCard, isOk ? 600 : 1400);
+      if(!isOk)cont.querySelectorAll('.mc-opt').forEach(btn=>{if(btn.textContent===card.ar)btn.classList.add('correct');});
+      if(isLearn){learnAnswered(isOk);}
+      else{
+        if(isOk){okCount++;}else{noCount++;wrongCards.push(card);if(!retrySet.has(card.ar)){retrySet.add(card.ar);scheduleRetry(card);}}
+        updateProgress();showWordOverlay(card,isOk,nextCard);
+      }
     };
     cont.appendChild(b);
   });
 }
 
-function getOptions(card){
-  // try pool from same chapter first, fallback to all chapters
-  let pool=curChapter.words.filter(w=>w.ar!==card.ar);
-  if(pool.length<3){
-    const allWords=CHAPTERS.flatMap(c=>c.words);
-    pool=allWords.filter(w=>w.ar!==card.ar);
-  }
-  return shuffle([card,...shuffle(pool).slice(0,3)]);
-}
-
-// WRITE
-function renderWrite(card){
+// ── WRITE ─────────────────────────────────────────────────────
+function renderWrite(card, isLearn){
   writeChecked=false;
+  document.getElementById('mode-write').classList.remove('hidden');
+  const em=document.getElementById('write-emoji');
+  em.textContent='';em.style.display='none'; // emoji hidden until answer
   document.getElementById('write-ru').textContent=card.ru;
   const inp=document.getElementById('write-input');
   inp.value='';inp.className='write-input';inp.disabled=false;
@@ -967,42 +1153,46 @@ function renderWrite(card){
   document.getElementById('write-fb').className='write-feedback';
   document.getElementById('check-btn').classList.remove('hidden');
   document.getElementById('check-btn').disabled=false;
-  document.getElementById('write-next').classList.add('hidden');
+  document.getElementById('check-btn').onclick=()=>checkWrite(card, isLearn);
+  inp.onkeydown=e=>{if(e.key==='Enter')checkWrite(card,isLearn);};
   setTimeout(()=>inp.focus(),80);
 }
 function clearFeedback(){
-  if(!writeChecked){document.getElementById('write-fb').textContent='';document.getElementById('write-input').className='write-input';}
+  if(!writeChecked){
+    document.getElementById('write-fb').textContent='';
+    document.getElementById('write-input').className='write-input';
+  }
 }
-function checkWrite(){
+function checkWrite(card, isLearn){
   if(writeChecked)return;
   const inp=document.getElementById('write-input');
   if(!inp.value.trim())return;
   writeChecked=true;
-  const card=deck[idx];
-  const val=stripDiac(inp.value.trim());
-  const correct=stripDiac(card.ar);
-  const ok=val===correct;
+  const ok=stripDiac(inp.value.trim())===stripDiac(card.ar);
+  ok?soundCorrect():soundWrong();
   inp.className='write-input '+(ok?'ok':'err');
   inp.disabled=true;
   const fb=document.getElementById('write-fb');
-  if(ok){fb.textContent='✓ Верно!';fb.className='write-feedback ok';okCount++;}
-  else{fb.innerHTML=`✗ Правильно: <span class="write-correct">${card.ar}</span>`;fb.className='write-feedback err';noCount++;wrongCards.push(card);}
+  if(ok){fb.textContent='✓ Верно!';fb.className='write-feedback ok';}
+  else{fb.innerHTML=`✗ Правильно: <span class="write-correct">${card.ar}</span>`;fb.className='write-feedback err';}
   document.getElementById('check-btn').classList.add('hidden');
-  document.getElementById('write-next').classList.remove('hidden');
-  updateProgress();
-  setTimeout(nextCard, ok ? 900 : 2200);
+  if(isLearn){setTimeout(()=>learnAnswered(ok),300);}
+  else{
+    if(ok){okCount++;}else{noCount++;wrongCards.push(card);if(!retrySet.has(card.ar)){retrySet.add(card.ar);scheduleRetry(card);}}
+    updateProgress();setTimeout(()=>showWordOverlay(card,ok,nextCard),300);
+  }
 }
 
-function nextCard(){
-  idx++;
-  if(idx>=deck.length){showResult();return;}
-  renderCard();
+// ── helpers ───────────────────────────────────────────────────
+function getOptions(card){
+  let pool=curChapter.words.filter(w=>w.ar!==card.ar);
+  if(pool.length<3){const all=CHAPTERS.flatMap(c=>c.words);pool=all.filter(w=>w.ar!==card.ar);}
+  return shuffle([card,...shuffle(pool).slice(0,3)]);
 }
 
 function showResult(){
-  const total=okCount+noCount;
-  const pct=total?Math.round(okCount/total*100):0;
-  saveScore(curChapter.id,okCount,total);
+  const total=okCount+noCount,pct=total?Math.round(okCount/total*100):0;
+  if(curMode!=='learn')saveScore(curChapter.id,okCount,total);
   document.getElementById('res-ok').textContent=okCount;
   document.getElementById('res-no').textContent=noCount;
   document.getElementById('res-pct').textContent=pct+'%';
@@ -1012,25 +1202,76 @@ function showResult(){
   document.getElementById('res-emoji').textContent=emoji;
   document.getElementById('res-title').textContent=title;
   document.getElementById('res-sub').textContent='Глава: '+curChapter.title+' · '+pct+'% правильно';
-  document.getElementById('retry-wrong').style.opacity=wrongCards.length>0?'1':'.4';
+  document.getElementById('retry-wrong').style.display=wrongCards.length>0?'':'none';
   showScreen('screen-result');
+  buildHome();
+  if(pct>=70)soundDone();
 }
 
 function shuffle(a){let b=[...a];for(let i=b.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
 
-// Catch any JS errors and show on screen for debugging on mobile
+// ── DARK THEME ────────────────────────────────────────────────
+let isDark=false;
+try{isDark=localStorage.getItem('ar_dark')==='1';}catch(e){}
+function applyTheme(){
+  document.body.classList.toggle('dark',isDark);
+  document.getElementById('theme-btn').textContent=isDark?'☀️':'🌙';
+}
+function toggleTheme(){
+  isDark=!isDark;
+  applyTheme();
+  try{localStorage.setItem('ar_dark',isDark?'1':'0');}catch(e){}
+}
+applyTheme();
+
+// ── SOUNDS (Web Audio — subtle, не навязчивые) ────────────────
+let _ac=null;
+function getAC(){
+  if(!_ac){try{_ac=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}}
+  return _ac;
+}
+function playTone(freq,type,vol,dur,fadeStart){
+  const ac=getAC();if(!ac)return;
+  try{
+    if(ac.state==='suspended')ac.resume();
+    const o=ac.createOscillator();
+    const g=ac.createGain();
+    o.connect(g);g.connect(ac.destination);
+    o.type=type;o.frequency.setValueAtTime(freq,ac.currentTime);
+    g.gain.setValueAtTime(vol,ac.currentTime);
+    g.gain.linearRampToValueAtTime(0,ac.currentTime+dur);
+    o.start(ac.currentTime);
+    o.stop(ac.currentTime+dur);
+  }catch(e){}
+}
+// Правильно — мягкий короткий «дзинь» (два тона)
+function soundCorrect(){
+  playTone(880,'sine',0.06,0.12);
+  setTimeout(()=>playTone(1100,'sine',0.04,0.1),80);
+}
+// Неправильно — тихий низкий удар
+function soundWrong(){
+  playTone(180,'sine',0.07,0.18);
+}
+// Переворот карточки — лёгкий «тик»
+function soundFlip(){
+  playTone(600,'sine',0.03,0.06);
+}
+// Завершение — маленький аккорд
+function soundDone(){
+  playTone(523,'sine',0.05,0.18);
+  setTimeout(()=>playTone(659,'sine',0.04,0.16),90);
+  setTimeout(()=>playTone(784,'sine',0.04,0.22),180);
+}
+
 window.onerror=function(msg,src,line){
   const g=document.getElementById('chapter-grid');
-  if(g)g.innerHTML=`<div style="padding:1rem;background:#fef2f2;border-radius:12px;font-size:13px;color:#dc2626;">Ошибка: ${msg} (строка ${line})</div>`;
-  return false;
+  if(g)g.innerHTML=`<div style="padding:1rem;background:#fef2f2;border-radius:12px;font-size:13px;color:#dc2626;">Ошибка: ${msg} (${line})</div>`;
 };
 
-if(document.readyState==='loading'){
-  document.addEventListener('DOMContentLoaded',buildHome);
-}else{
-  buildHome();
-}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',buildHome);}
+else{buildHome();}
 </script>
 </body>
 </html>
